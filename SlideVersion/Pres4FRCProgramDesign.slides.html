@@ -18081,7 +18081,7 @@ div.jp-OutputPrompt {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<blockquote><p>Subsystems are the basic unit of robot organization in the design-based paradigm. Subsystems encapsulate lower-level robot hardware (such as motor controllers, sensors, and/or pneumatic actuators), and define the interfaces through which that hardware can be accessed by the rest of the robot code. Subsystems allow users to “hide” the internal complexity of their actual hardware from the rest of their code - this both simplifies the rest of the robot code, and allows changes to the internal details of a subsystem without also changing the rest of the robot code.</p>
+<blockquote><p>Subsystems encapsulate lower-level robot hardware (such as motor controllers, sensors, and/or pneumatic actuators), and define the interfaces through which that hardware can be accessed by the rest of the robot code. Subsystems allow users to “hide” the internal complexity of their actual hardware from the rest of their code</p>
 <p>- WPILIB documentation</p>
 </blockquote>
 
@@ -18867,7 +18867,134 @@ div.jp-OutputPrompt {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Inputs">Inputs<a class="anchor-link" href="#Inputs">&#182;</a></h2>
+<h2 id="Inputs">Inputs<a class="anchor-link" href="#Inputs">&#182;</a></h2><p>Now that we have made commands that correspond to individual actions and responsibilities, we need some way to know when to schedule commands in response to inputs.</p>
+<p>Fortunately, WPILib also provides many ways to get user inputs though outside devices.</p>
+
+</div>
+</div>
+</div>
+</div><div class="fragment">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>For our robots in particular, we only use XBox controllers, so we made our own, even simpler system to work with just those controllers.</p>
+<p><img src="https://imgs.search.brave.com/LpA8VhuzMVhkD16lVzQtewU__0g1yBfkPw3wiq_dGIA/rs:fit:490:351:1/g:ce/aHR0cHM6Ly93d3cu/dGVjaGllc2hlbHAu/Y29tL3dwLWNvbnRl/bnQvdXBsb2Fkcy8y/MDE0LzEwL3hib3gt/b25lLWNvbnRyb2xs/ZXItZnJlZXplcy5w/bmc" alt=""></p>
+
+</div>
+</div>
+</div>
+</div></div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="Users-In-An-FRC-Competition">Users In An FRC Competition<a class="anchor-link" href="#Users-In-An-FRC-Competition">&#182;</a></h3><p>In an FRC competition, there will be two drivers for each robot. For us, these two drivers are called the <code>Primary</code> and <code>Secondary</code> drivers/players</p>
+
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="The-Controller-Class">The Controller Class<a class="anchor-link" href="#The-Controller-Class">&#182;</a></h3><p>For our robot, the inputs are handled by the <code>Controller</code> class in the <code>utils</code> folder.</p>
+<p>*put image here*</p>
+
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>To create a binding, we use either the <code>simpleAxis</code> method(which represents an input between -1 and 1, like a joystick) or the <code>simpleButton</code> method (which represents either on or off, like a button).</p>
+<p>We first pass in which controller this refers to, as well as what input to bind.</p>
+<div class="highlight"><pre><span></span><span class="n">UserDigital</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Controller</span><span class="p">.</span><span class="na">simpleButton</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">Controller</span><span class="p">.</span><span class="na">PRIMARY</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">Controller</span><span class="p">.</span><span class="na">BUTTONA</span><span class="w"></span>
+<span class="p">);</span><span class="w"></span>
+</pre></div>
+<p>Note that the values are static constants defined as integers, this is an example of an <code>enumeration</code>, where one particular value or <code>state</code> is represented as an integer.</p>
+
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>The <code>UserDigital</code> and <code>UserAnalog</code> interfaces are the things that represent those individual bindings. To get the input at a particular time, we call their <code>get</code> method (and they should return either a boolean or a double)</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<div class="highlight"><pre><span></span><span class="c1">// userdigital example</span><span class="w"></span>
+<span class="kt">boolean</span><span class="w"> </span><span class="n">isButtonADown</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buttonA</span><span class="p">.</span><span class="na">get</span><span class="p">();</span><span class="w"></span>
+<span class="c1">// useranalog example</span><span class="w"></span>
+<span class="kt">double</span><span class="w"> </span><span class="n">leftTriggerOut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">leftTrigger</span><span class="p">.</span><span class="na">get</span><span class="p">();</span><span class="w"></span>
+</pre></div>
+
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="Inputs-&amp;-Commands">Inputs &amp; Commands<a class="anchor-link" href="#Inputs-&amp;-Commands">&#182;</a></h3><p>Now that we've created our input bindings, how can we give them to a command, so that they can be properly used?</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Similar to what we did before with subsystems, we can inject them as a constructor parameter!</p>
+<div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">ExampleCommand</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">CommandBase</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">SubSystemName</span><span class="w"> </span><span class="n">sys</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">UserDigital</span><span class="w"> </span><span class="n">in</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">ExampleCommand</span><span class="p">(</span><span class="n">SubSystemName</span><span class="w"> </span><span class="n">subsys1</span><span class="p">,</span><span class="w"> </span><span class="n">UserDigital</span><span class="w"> </span><span class="n">input</span><span class="p">){</span><span class="w"></span>
+<span class="w">        </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">input</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">sys</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">subsys1</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">addRequirements</span><span class="p">(</span><span class="n">subsys1</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// this refers to the current object</span><span class="w"></span>
+<span class="w">        </span><span class="n">subsys1</span><span class="p">.</span><span class="na">setDefaultCommand</span><span class="p">(</span><span class="k">this</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="nd">@Override</span><span class="w"> </span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">execute</span><span class="p">(){</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">in</span><span class="p">.</span><span class="na">get</span><span class="p">())</span><span class="w"> </span><span class="n">subsys1</span><span class="p">.</span><span class="na">doThing</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+
 </div>
 </div>
 </div>
@@ -18878,7 +19005,46 @@ div.jp-OutputPrompt {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Program-Organization">Program Organization<a class="anchor-link" href="#Program-Organization">&#182;</a></h2><p><a href="https://docs.wpilib.org/en/stable/docs/software/commandbased/structuring-command-based-project.html">https://docs.wpilib.org/en/stable/docs/software/commandbased/structuring-command-based-project.html</a></p>
+<h2 id="Program-Organization">Program Organization<a class="anchor-link" href="#Program-Organization">&#182;</a></h2><p>Now that we've seen all the individual parts of our design, we can look at how they fit together</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="Robot.java">Robot.java<a class="anchor-link" href="#Robot.java">&#182;</a></h3><p>(note : remember, us humans aren't aren't that good at thinking of mechanisms as actions ....)</p>
+<p>The <code>Robot</code> class itself doesn't contain that much in both our Robot codebase as well as in the example project, and this is by design. Because the Robot itself operates off of <strong>time</strong>, and not off of <strong>inputs</strong>, we want to limit the amount of work done in this class.</p>
+<p>All the robot handles are background tasks, such as running the command scheduler (robotPeriodic), and handling phase transitions (teleopInit). The heavy work is done by another class, the <code>RobotContainer</code> (which Robot creates in robotInit).</p>
+
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="RobotContainer">RobotContainer<a class="anchor-link" href="#RobotContainer">&#182;</a></h3><p>the <code>RobotContainer</code> class handles the setting up, as well as storage of all the individual subsystems and commands. Generally, subsystems and commands are created in the constructor of the RobotContainer, and it also specifies which commands to run during autonomous.</p>
+<p>In addition, the RobotContainer should also creates all of our input bindings, before passing them off to the subsystems and commands</p>
+
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><a href="https://docs.wpilib.org/en/stable/docs/software/commandbased/structuring-command-based-project.html">https://docs.wpilib.org/en/stable/docs/software/commandbased/structuring-command-based-project.html</a></p>
 
 </div>
 </div>
