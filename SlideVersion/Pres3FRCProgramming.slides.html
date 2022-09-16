@@ -18227,6 +18227,21 @@ div.jp-OutputPrompt {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="Packages-&amp;-Folders">Packages &amp; Folders<a class="anchor-link" href="#Packages-&amp;-Folders">&#182;</a></h3><p>Notice the first line in Robot.java,</p>
+<div class="highlight"><pre><span></span><span class="kn">package</span><span class="w"> </span><span class="nn">frc.robot</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+<p>this was the reason why it was placed in the <code>\frc\robot</code> sub-folder of <code>src\main\java</code>. Packages in the code should always reflect how we organize these files in folders, and vice versa.</p>
+
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="Some-additional-java-features">Some additional java features<a class="anchor-link" href="#Some-additional-java-features">&#182;</a></h3><p>Looking at the <code>Robot.java</code> file in <code>src\main\java\frc\robot</code> , you should see some syntactical features that we haven't covered before, those being <code>extends</code> and <code>/** */</code>.</p>
 <ul>
 <li><code>/** */</code> is a special kind of comment that gives documentation about that class/method. If you hover over <code>robotInit</code> for instance, the description is contained in one such doc comment</li>
@@ -18311,15 +18326,152 @@ div.jp-OutputPrompt {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Packages-&amp;-Folders">Packages &amp; Folders<a class="anchor-link" href="#Packages-&amp;-Folders">&#182;</a></h3><p>Notice the first line in Robot.java,</p>
-<div class="highlight"><pre><span></span><span class="kn">package</span><span class="w"> </span><span class="nn">frc.robot</span><span class="p">;</span><span class="w"></span>
-</pre></div>
-<p>this was the reason why it was placed in the <code>\frc\robot</code> sub-folder of <code>src\main\java</code>. Packages in the code should always reflect how we organize these files in folders, and vice versa.</p>
+<h3 id="Interfaces">Interfaces<a class="anchor-link" href="#Interfaces">&#182;</a></h3><p>Another useful java concept that we haven't introduced yet are interfaces. An interface is created similarly to a class, but</p>
+<ul>
+<li>it can't contain fields*</li>
+<li>its methods must be public</li>
+<li>its methods can't be implemented</li>
+</ul>
 
 </div>
 </div>
 </div>
-</div></section></section><section><section>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-java"><pre><span></span><span class="kd">interface</span> <span class="nc">Runnable</span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">run</span><span class="p">();</span><span class="w"> </span><span class="c1">// public by default</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h4 id="Implementing-Interfaces">Implementing Interfaces<a class="anchor-link" href="#Implementing-Interfaces">&#182;</a></h4><p>instead of being <code>extended</code>, an interface must be <code>implemented</code>, like so:</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-java"><pre><span></span><span class="kd">class</span> <span class="nc">Cow</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Runnable</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">run</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;running&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>the class implementing the interface must also properly implement all methods specified by the interfaces, otherwise an error would occur.</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-java"><pre><span></span><span class="kd">class</span> <span class="nc">Cow</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Runnable</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">run</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// not public!</span><span class="w"></span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;running&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
+<pre>
+<span class="ansi-black-intense-fg ansi-bold">|   </span><span class="ansi-black-intense-fg ansi-bold">    </span><span class="ansi-black-intense-fg ansi-red-bg ansi-bold">void run() { // not public!</span>
+<span class="ansi-black-intense-fg ansi-bold">|   </span><span class="ansi-black-intense-fg ansi-red-bg ansi-bold">        System.out.println(&#34;running&#34;);</span>
+<span class="ansi-black-intense-fg ansi-bold">|   </span><span class="ansi-black-intense-fg ansi-red-bg ansi-bold">    }</span>
+<span class="ansi-red-intense-fg ansi-bold">run() in Cow cannot implement run() in Runnable</span>
+<span class="ansi-red-intense-fg ansi-bold">  attempting to assign weaker access privileges; was public</span>
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="What's-the-Point-of-Interfaces?">What's the Point of Interfaces?<a class="anchor-link" href="#What's-the-Point-of-Interfaces?">&#182;</a></h3><p>interfaces at first glance seem weird. Why would we need some structure that just contains public methods that aren't implemented?</p>
+
+</div>
+</div>
+</div>
+</div><div class="fragment">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Interfaces are a useful organizational tool, they help establish a contract, or a guarantee that a class implements some behavior. In our example above, they guarantee that our cow is able to run.</p>
+<p>Interfaces can also group classes by common behaviors, even if they don't <code>extend</code> each other. For example, for a <code>Runnable</code> we could give a cow, person, cheetah, or whatever, even if they none of them extend one another.</p>
+
+</div>
+</div>
+</div>
+</div></div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -18474,6 +18626,64 @@ div.jp-OutputPrompt {
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 <p>this is known as an <code>overload</code> for the <code>set</code> method, where both <code>set</code>s have the same name, but different parameter types</p>
+
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Robot-&amp;-Competition-Phases">Robot &amp; Competition Phases<a class="anchor-link" href="#Robot-&amp;-Competition-Phases">&#182;</a></h2>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Looking closer at our Robot.java file, you can see pairs of methods with the format <code>&lt;x&gt;Init</code> and <code>&lt;x&gt;Periodic</code>, like for example</p>
+<p><img src="https://i.imgur.com/dBoFESw.png" alt=""></p>
+
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Like the name hints, <code>&lt;x&gt;Init</code> only runs once, whereas <code>&lt;x&gt;Periodic</code> runs every ~20 milliseconds (~0.02 seconds). The difference between each <code>Init</code> and <code>Periodic</code> method is when it runs/ starts running.</p>
+<ul>
+<li><code>robotInit</code> runs when the robot starts up, and <code>robotPeriodic</code> runs while the robot is on. We'll take a closer look at the contents of <code>RobotPeriod</code> after introducing some necessary ideas</li>
+<li>we can disregard the <code>simulation</code>/<code>disabled</code>/<code>test</code> methods for the time being</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>The <code>autonomous</code> and <code>teleop</code> methods correspond to phases of an FRC competition.</p>
+<p>An FRC competition lasts 2 minutes 30 seconds, and consists of 2 phases:</p>
+<ul>
+<li>Autonomous (15 seconds), where the robot performs tasks by itself</li>
+<li>Teleoperated, where the drivers directly control the robot</li>
+</ul>
+<p>So <code>autonomousInit</code>/<code>autonomousPeriodic</code> run once we enter the autonomous phase, and <code>teleopInit</code> and <code>teleopPeriodic</code> run once we enter the teleoperated phase. Since in a competition it automatically follows the autonomous phase, <code>teleopInit</code> is used to manage that transition, as seen in the example.</p>
 
 </div>
 </div>

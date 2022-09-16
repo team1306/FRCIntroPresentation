@@ -17926,64 +17926,6 @@ div.jp-OutputPrompt {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Robot-&amp;-Competition-Phases-(perhaps-move-this-section-to-previous-pres)">Robot &amp; Competition Phases (perhaps move this section to previous pres)<a class="anchor-link" href="#Robot-&amp;-Competition-Phases-(perhaps-move-this-section-to-previous-pres)">&#182;</a></h2>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Looking closer at our Robot.java file, you can see pairs of methods with the format <code>&lt;x&gt;Init</code> and <code>&lt;x&gt;Periodic</code>, like for example</p>
-<p><img src="https://i.imgur.com/dBoFESw.png" alt=""></p>
-
-</div>
-</div>
-</div>
-</div></section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Like the name hints, <code>&lt;x&gt;Init</code> only runs once, whereas <code>&lt;x&gt;Periodic</code> runs every ~20 milliseconds (~0.02 seconds). The difference between each <code>Init</code> and <code>Periodic</code> method is when it runs/ starts running.</p>
-<ul>
-<li><code>robotInit</code> runs when the robot starts up, and <code>robotPeriodic</code> runs while the robot is on. We'll take a closer look at the contents of <code>RobotPeriod</code> after introducing some necessary ideas</li>
-<li>we can disregard the <code>simulation</code>/<code>disabled</code>/<code>test</code> methods for the time being</li>
-</ul>
-
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>The <code>autonomous</code> and <code>teleop</code> methods correspond to phases of an FRC competition.</p>
-<p>An FRC competition lasts 2 minutes 30 seconds, and consists of 2 phases:</p>
-<ul>
-<li>Autonomous (15 seconds), where the robot performs tasks by itself</li>
-<li>Teleoperated, where the drivers directly control the robot</li>
-</ul>
-<p>So <code>autonomousInit</code>/<code>autonomousPeriodic</code> run once we enter the autonomous phase, and <code>teleopInit</code> and <code>teleopPeriodic</code> run once we enter the teleoperated phase. Since in a competition it automatically follows the autonomous phase, <code>teleopInit</code> is used to manage that transition, as seen in the example.</p>
-
-</div>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="Conceptual-Organization">Conceptual Organization<a class="anchor-link" href="#Conceptual-Organization">&#182;</a></h2><p>Building and programming a robot can be a complicated task that involves keeping track of a large number of electronics. If we try to handle everything just using the features provided in our <code>Robot.java</code> file, we'd quickly see that it becomes unsustainable.</p>
 
 </div>
@@ -19005,12 +18947,12 @@ div.jp-OutputPrompt {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Program-Organization">Program Organization<a class="anchor-link" href="#Program-Organization">&#182;</a></h2><p>Now that we've seen all the individual parts of our design, we can look at how they fit together</p>
+<h2 id="Program-Organization">Program Organization<a class="anchor-link" href="#Program-Organization">&#182;</a></h2><p>Now that we've seen all the individual parts of our design, we can look at how they fit together (take about why we disregard Main.java)</p>
 
 </div>
 </div>
 </div>
-</div>
+</div><div class="fragment">
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -19024,7 +18966,7 @@ div.jp-OutputPrompt {
 </div>
 </div>
 </div>
-</div></section><section>
+</div></div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -19044,12 +18986,38 @@ div.jp-OutputPrompt {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p><a href="https://docs.wpilib.org/en/stable/docs/software/commandbased/structuring-command-based-project.html">https://docs.wpilib.org/en/stable/docs/software/commandbased/structuring-command-based-project.html</a></p>
+<h3 id="Constants">Constants<a class="anchor-link" href="#Constants">&#182;</a></h3><p>Often, we'll have many values that represent specific constants and need to be used throughout our project (example being CAN ids). For those values, we put them in a dedicated Constants class. Since we only need one copy of each, want to access it from everywhere, and don't want to change their values, we'll make them <code>public static final</code> fields.</p>
+<p>This can get to be quite long and a bit of an eyesore, so we take advantage of another java feature, and just make them fields within an <code>interface</code> instead of a class, which makes them automatically public, static, and final.</p>
 
 </div>
 </div>
 </div>
-</div></section></section>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="Subfolders">Subfolders<a class="anchor-link" href="#Subfolders">&#182;</a></h3><p>besides the main 3 (4) classes, we want to group all our other classes into meaningful folders (and by extension packages).</p>
+<p>Two of these groupings are the <code>subsystems</code> and <code>commands</code> folders, but we also have in our project a <code>utils</code>, or utilities folder containing miscellaneous things that are useful, like our class for managing controllers, and the UserDigital/UserAnalog interfaces</p>
+
+</div>
+</div>
+</div>
+</div><div class="fragment">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="The-in-depth-description">The in-depth description<a class="anchor-link" href="#The-in-depth-description">&#182;</a></h3><p><a href="https://docs.wpilib.org/en/stable/docs/software/commandbased/structuring-command-based-project.html">https://docs.wpilib.org/en/stable/docs/software/commandbased/structuring-command-based-project.html</a></p>
+
+</div>
+</div>
+</div>
+</div></div></section></section>
 </div>
 </div>
 </body>
