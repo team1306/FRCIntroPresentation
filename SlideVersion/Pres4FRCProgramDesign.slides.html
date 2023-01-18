@@ -15258,7 +15258,7 @@ div.jp-OutputPrompt {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>Since there should only be 1 instance of the command scheduler, we get it through an <code>getInstance</code> static method, e.g.</p>
-<div class="highlight"><pre><span></span><span class="c1">// this is what is known as a &quot;singleton&quot; object</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="c1">// CommandScheduler is what is known as a &quot;singleton&quot;</span><span class="w"></span>
 <span class="n">CommandScheduler</span><span class="p">.</span><span class="na">getInstance</span><span class="p">().</span><span class="na">run</span><span class="p">();</span><span class="w"></span>
 </pre></div>
 <p>the CommandScheduler instance has 2 methods of use to us: <code>schedule</code> and <code>run</code></p>
@@ -15309,30 +15309,6 @@ div.jp-OutputPrompt {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Diagrams for what <code>schedule</code> and <code>run</code> do respectively (Note 1: <code>Initalize</code> is called when it says <code>Run Command</code>)(Note 2: <code>Initialize</code> isn't called every <code>run</code> call for most commands (exception being user input like buttons))</p>
-
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p><img src="https://docs.wpilib.org/en/stable/_images/scheduler.drawio.svg" alt="a" /> <img src="https://docs.wpilib.org/en/stable/_images/scheduler-run-sequence.drawio.svg" alt="a" /></p>
-
-</div>
-</div>
-</div>
-</div></section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="Using-commands">Using commands<a class="anchor-link" href="#Using-commands">&#182;</a></h3><p>to use our commands, we'd only need to call <code>schedule</code> on them when the correct condition is met. For our default commands, this isn't necessary. For example, if we wanted some command to run at the very start, then we could do:</p>
 <div class="highlight"><pre><span></span><span class="nd">@Override</span><span class="w"></span>
 <span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">robotInit</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -15369,8 +15345,7 @@ div.jp-OutputPrompt {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Digression-:-Simplicity-&amp;-Abstraction">Digression : Simplicity &amp; Abstraction<a class="anchor-link" href="#Digression-:-Simplicity-&amp;-Abstraction">&#182;</a></h2><p>(cut section maybe or make into notes)</p>
-
+<h2 id="Digression-:-Simplicity-&amp;-Abstraction">Digression : Simplicity &amp; Abstraction<a class="anchor-link" href="#Digression-:-Simplicity-&amp;-Abstraction">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -15382,7 +15357,7 @@ div.jp-OutputPrompt {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>Both by using the command scheduler as opposed to manually managing our subsystems, and by using subsystems instead of working with individual electronics, we saw that our code got a lot cleaner, and we were also able to better understand its logic.</p>
-<p>(Note : It's much easier to understand <code>drive the robot</code> as a high level instruction than it is to understand what happens when individual motors are spun)</p>
+<p>(e.g. It's much easier to understand <code>drive the robot</code> as a high level instruction than it is to understand what happens when individual motors are spun)</p>
 
 </div>
 </div>
@@ -15406,7 +15381,7 @@ div.jp-OutputPrompt {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Grouping-Commands">Grouping Commands<a class="anchor-link" href="#Grouping-Commands">&#182;</a></h2><p>We've seen how to work with individual commands, but there are many cases where we want two commands to run at the same time (in parallel), or one after the other (in sequence).</p>
+<h2 id="Grouping-Commands">Grouping Commands<a class="anchor-link" href="#Grouping-Commands">&#182;</a></h2><p>We've seen how to work with individual commands, but there are many cases where we want two commands to run at the same time (in parallel), or one after the other (in sequence), or in any number of ways depending on the circumstances.</p>
 <p>Using the existing features, we can use the <code>initalize</code> and <code>end</code> methods to schedule parallel and sequential commands respectively, but WPILib offers us a much more elegant solution...</p>
 
 </div>
@@ -15545,6 +15520,18 @@ div.jp-OutputPrompt {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>The methods from before return values of these types, and values of these parallel groups, like values of sequential command groups, are themselves valid commands</p>
+
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="Further-Combinations">Further Combinations<a class="anchor-link" href="#Further-Combinations">&#182;</a></h3><p>beyond simple parallel and sequential commands, WPILib gives us a large selection of possible ways to combine many simple commands into more complex commands, a list of which can be found <a href="https://docs.wpilib.org/en/stable/docs/software/commandbased/command-compositions.html">here</a></p>
 
 </div>
 </div>
@@ -15760,6 +15747,11 @@ div.jp-OutputPrompt {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="The-in-depth-description">The in-depth description<a class="anchor-link" href="#The-in-depth-description">&#182;</a></h3><p>https://docs.wpilib.org/en/stable/docs/software/commandbased/structuring-command-based-project.html</p>
+<h3 id="Documentation">Documentation<a class="anchor-link" href="#Documentation">&#182;</a></h3><ul>
+<li>https://first.wpi.edu/wpilib/allwpilib/docs/release/java/index.html</li>
+<li>https://api.ctr-electronics.com/phoenix/release/java/index.html</li>
+<li>https://codedocs.revrobotics.com/java/com/revrobotics/package-summary.html</li>
+</ul>
 
 </div>
 </div>
