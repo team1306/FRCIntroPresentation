@@ -13322,157 +13322,6 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Some-additional-java-features">Some additional java features<a class="anchor-link" href="#Some-additional-java-features">&#182;</a></h3><p>Looking at the <code>Robot.java</code> file in <code>src\main\java\frc\robot</code> , you should see some syntactical features that we haven't covered before, those being <code>extends</code> and <code>/** */</code>.</p>
-<ul>
-<li><code>/** */</code> is a special kind of comment that gives documentation about that class/method. If you hover over <code>robotInit</code> for instance, the description is contained in one such doc comment</li>
-<li><code>extends</code> makes it so that the new class also has the fields &amp; methods of the old class, and if it wants to override any of them, its best practice to use <code>@Override</code> in front of the method definition</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Example:">Example:<a class="anchor-link" href="#Example:">&#182;</a></h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-java"><pre><span></span><span class="kd">class</span> <span class="nc">C</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">m</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Hello, World!&quot;</span><span class="p">);</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-<span class="kd">class</span> <span class="nc">D</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
-<span class="k">new</span><span class="w"> </span><span class="n">D</span><span class="p">().</span><span class="na">m</span><span class="p">();</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Hello, World!
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Then, since D has all the methods and fields of C, any time you'd need some instance of C, an instance of D would also work by definition</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Interfaces">Interfaces<a class="anchor-link" href="#Interfaces">&#182;</a></h3><p>Another useful java concept that we haven't introduced yet are interfaces. An interface is created similarly to a class, but</p>
-<ul>
-<li>it can't contain fields*</li>
-<li>its methods must be public</li>
-<li>its methods can't be implemented</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-java"><pre><span></span><span class="kd">interface</span> <span class="nc">Runnable</span><span class="p">{</span>
-<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">run</span><span class="p">();</span><span class="w"> </span><span class="c1">// public by default</span>
-<span class="p">}</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Implementing-Interfaces">Implementing Interfaces<a class="anchor-link" href="#Implementing-Interfaces">&#182;</a></h4><p>instead of being <code>extended</code>, an interface must be <code>implemented</code>, like so:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-java"><pre><span></span><span class="kd">class</span> <span class="nc">Cow</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Runnable</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">run</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;running&quot;</span><span class="p">);</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>the class implementing the interface must also properly implement all methods specified by the interfaces, otherwise an error would occur.</p>
-<div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">Cow</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Runnable</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">run</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// not public!</span>
-<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;running&quot;</span><span class="p">);</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-<span class="c1">//error:</span>
-<span class="c1">//run() in Cow cannot implement run() in Runnable</span>
-<span class="c1">//  attempting to assign weaker access privileges; was public</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="What's-the-Point-of-Interfaces?">What's the Point of Interfaces?<a class="anchor-link" href="#What's-the-Point-of-Interfaces?">&#182;</a></h3><p>interfaces at first glance seem weird. Why would we need some structure that just contains public methods that aren't implemented?</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Interfaces are a useful organizational tool, they help establish a contract, or a guarantee that a class implements some behavior. In our example above, they guarantee that our cow is able to run.</p>
-<p>Interfaces can also group classes by common behaviors, even if they don't <code>extend</code> each other. For example, for a <code>Runnable</code> we could give a cow, person, cheetah, or whatever, even if they none of them extend one another.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Electronics-In-Code">Electronics In Code<a class="anchor-link" href="#Electronics-In-Code">&#182;</a></h2><p>Having a file for representing our robot is a good start, but in order to properly create code for controlling our robot, we first need some way to interact with the individual electronics on the Robot, like for example the motor controllers.</p>
 
 </div>
@@ -13489,7 +13338,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>For the purpose of demonstration, we can directly put this inside the <code>Robot.java</code> file, but we'll see why its done differently in a later presentation</p>
+<p>For the purpose of demonstration, we can directly put this inside the <code>Robot.java</code> file, but we'll see why its done differently later.</p>
 
 </div>
 </div>
@@ -13630,7 +13479,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Git-/-Github-:-Collaborating-&amp;-Managing-Code">Git / Github : Collaborating &amp; Managing Code<a class="anchor-link" href="#Git-/-Github-:-Collaborating-&amp;-Managing-Code">&#182;</a></h2><p>In this presentation, we went through how to create and go through a project on a single device. However, in reality, a robot isn't programmed in one sitting by one person. Building and programming a robot can be a months long task involving many people, who work on different devices.</p>
+<h2 id="Git-/-Github-:-Collaborating-&amp;-Managing-Code">Git / Github : Collaborating &amp; Managing Code<a class="anchor-link" href="#Git-/-Github-:-Collaborating-&amp;-Managing-Code">&#182;</a></h2><p>Previously, we went through how to create and go through a project on a single device. However, in reality, a robot isn't programmed in one sitting by one person. Building and programming a robot can be a months long task involving many people, who work on different devices.</p>
 
 </div>
 </div>
@@ -13672,7 +13521,7 @@ div#notebook {
 <p>The two we use are:</p>
 <ul>
 <li><code>git</code>, a <code>version control</code> system that allows us to keep track of the history of changes to our project, and</li>
-<li><code>github</code>, a service that hosts our codebase online, and works well with <code>git</code> (as hinted at by the name)</li>
+<li><code>github</code>, a service that hosts our codebase online</li>
 </ul>
 
 </div>

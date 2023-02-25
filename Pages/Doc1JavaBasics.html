@@ -13092,8 +13092,8 @@ div#notebook {
 <h1 id="Intro-to-Java-Basics">Intro to Java Basics<a class="anchor-link" href="#Intro-to-Java-Basics">&#182;</a></h1><p>This document will primarily be one about the basics of the java language itself, and involves constructing snippets that represent incomplete parts of a java program. Code written in this document is meant to be replicated on the <code>jshell</code> tool that comes with the installation of the jdk. To open jshell, first open your desktop search bar and type <code>terminal</code> or <code>cmd</code> and click on the first result. you should see a screen that looks like this (Left)</p>
 <p>Type in <code>jshell</code> and it should run the application (Right, with examples of expressions).</p>
 <center>
-  <img src="../Images/CmdPrompt.png" height = 250>
-  <img src="../Images/JShell.png" height = 250>
+  <img src="../Images/CmdPrompt.png" height = 300>
+  <img src="../Images/JShell.png" height = 300>
 </center>
 
 </div>
@@ -13859,7 +13859,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>When unnecessary braces and indentations are removed, this results in:</p>
+<p>Here, the body of every <code>if</code> and <code>else</code> is wrapped in braces. However, since <code>if statements</code> are single statements, we can omit the braces surrounding them. When these unnecessary braces and indentations are removed, this results in the much more visually appealing:</p>
 
 </div>
 </div>
@@ -13907,7 +13907,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>giving us a much cleaner and readable structure for our chained if-else statements. (This arrangement of a single <code>if</code> statement in the <code>else</code> block is commonly referred to as an <code>else-if</code> statement, representing an alternative choice. Though that view is more intuitive, I feel it's still interesting to see how it works behind the scenes.)</p>
+<p>giving us a much cleaner and readable structure for our chained if-else statements. (This arrangement of a single <code>if</code> statement in the <code>else</code> block is commonly referred to as an <code>else-if</code> statement, representing an alternative choice. Though that view is more intuitive, I feel it's still interesting to see how it works behind the scenes and seeing it as a chain of if statments.)</p>
 
 </div>
 </div>
@@ -13978,7 +13978,7 @@ old enough
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>and for loops, which are usually used to loop between a start and end value, and are commonly used to iterate through collections of values (like for example arrays).</p>
+<p>and for loops, which are usually used to loop between a start and end value, and are commonly used to iterate through collections of values, like for example arrays.</p>
 <p>an array of some type is denoted with a pair of square brackets after the type name, like for example:</p>
 
 </div>
@@ -14041,7 +14041,7 @@ so the values are located between <code>0</code> and <code>length-1</code>, as o
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-java"><pre><span></span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">iceCreamFlavors</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">);</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; -&gt; &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">iceCreamFlavors</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -14059,9 +14059,9 @@ so the values are located between <code>0</code> and <code>length-1</code>, as o
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>chocolate
-vanilla
-strawberry
+<pre>0 -&gt; chocolate
+1 -&gt; vanilla
+2 -&gt; strawberry
 </pre>
 </div>
 </div>
@@ -14081,7 +14081,23 @@ strawberry
 <li>the <code>initalization</code> component is a <code>statement</code> where the variables used during the loop are declared and initalized. In our loop above, this involved creating a variable <code>i</code> with value 0 (<code>int i = 0</code>)</li>
 <li>the <code>loop_condition</code> component is an <code>expression</code> thats checked at the end of each iteration. if it evaluates to <code>true</code>, the loop continues to the next iteration. Otherwise if it evaluates to <code>false</code>, the loop halts. In the example above, this expression is <code>i &lt; 3</code>.</li>
 <li>the <code>update</code> component is a statement which updates the values of variables after an iteration (unless it's the last iteration, as the loop halts before this is executed). In the example above, this involves incrementing the value in variable <code>i</code> with the statement (<code>i = i + 1</code>)</li>
-<li>the <code>body</code> component is a statement or block that represents the action(s) which are performed in each iteration. In our example, this is printing the <code>i</code>th index of the iceCreamFlavors array with the statement <code>System.out.println(iceCreamFlavors[i]);</code></li>
+<li>the <code>body</code> component is a statement or block that represents the action(s) which are performed in each iteration. In our example, this is printing the <code>i</code>th index of the iceCreamFlavors array with the statement <code>System.out.println(iceCreamFlavors[i]);</code> Like an if statement's body, if it consists of a single statement, the braces surrounding it can also be omitted.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Try-it-Yourself">Try it Yourself<a class="anchor-link" href="#Try-it-Yourself">&#182;</a></h4><p>Pause for a bit and play around with different arrays, arrays of different types, and for loops going through those arrays. Perhaps try making array that represents the days of the week, a restaurant menu, or anything of the sort.</p>
+<p>Likewise, try playing around with different parts of the for loops: (useful tip: <code>ctrl+C</code> halts a line's execution :] )</p>
+<ul>
+<li>what happens if you change the initalization component? what if it's initalized to 1 instead of 0?</li>
+<li>what happens if you change the loop condition to false? true? or some other expression?</li>
+<li>what happens if you change the update component to add 2 instead of 1, or perhaps 3,4, or 0?</li>
+<li>what happens if you leave each part empty? does it error? or does it not?</li>
+<li>can you rewrite the earlier while loop example using a for loop instead?</li>
 </ul>
 
 </div>
@@ -14341,6 +14357,14 @@ can ride
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Try-it-Yourself">Try it Yourself<a class="anchor-link" href="#Try-it-Yourself">&#182;</a></h4><p>Pause a bit here and try making some of your own functions and explore their outputs. Any functions from math that you want to use? Can you make any that utilizes the structures described earlier (the for, if, and while statements)?</p>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
@@ -14914,6 +14938,7 @@ true
 <li><a href="https://codingbat.com/java">codingbat</a></li>
 <li><a href="codingame.com/home">codingame</a></li>
 </ul>
+<p>Although most importantly, playing around with these concepts yourself in jshell is also a great way to practice the concepts before exploring complete java programs</p>
 
 </div>
 </div>

@@ -13510,7 +13510,7 @@ Insufficient funds
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Applying this to our <code>Account</code> class gives us:</p>
+<p>the <code>this</code> construct has another usage as well in classes with multiple constructors, allowing us to call different constructors within a constructor (for example if we want to take some &quot;default&quot; arguments in our constructors):</p>
 
 </div>
 </div>
@@ -13518,6 +13518,65 @@ Insufficient funds
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="kd">class</span> <span class="nc">C</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">data1</span><span class="p">,</span><span class="w"> </span><span class="n">data2</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// two constructors for class C</span>
+<span class="w">    </span><span class="n">C</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">data</span><span class="p">){</span>
+<span class="w">        </span><span class="c1">// lets say we want to have a default value for the second argument</span>
+<span class="w">        </span><span class="k">this</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// our second, more general constructor</span>
+<span class="w">    </span><span class="n">C</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">data1</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">data2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;2 arg constructor called&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="c1">// achieves the same lower bound effect as the previous code</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">data1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Math</span><span class="p">.</span><span class="na">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">data1</span><span class="p">);</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">data2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Math</span><span class="p">.</span><span class="na">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">data2</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// using 2nd constructor, so it should print</span>
+<span class="n">C</span><span class="w"> </span><span class="n">c1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">C</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"> </span>
+<span class="c1">// using 1st constructor, but it relies on the 2nd constructor so it should also print</span>
+<span class="n">C</span><span class="w"> </span><span class="n">c2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">C</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>2 arg constructor called
+2 arg constructor called
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Applying this to our <code>Account</code> class gives us:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-java"><pre><span></span><span class="kd">class</span> <span class="nc">Account</span><span class="w"> </span><span class="p">{</span>
@@ -13558,7 +13617,7 @@ Insufficient funds
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-java"><pre><span></span><span class="c1">// example for constructor call (note the constructor arguments in the parentheses)</span>
@@ -13614,7 +13673,7 @@ Insufficient funds
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-java"><pre><span></span><span class="kd">class</span> <span class="nc">Client</span><span class="w"> </span><span class="p">{</span>
@@ -13638,7 +13697,7 @@ Insufficient funds
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-java"><pre><span></span><span class="kd">class</span> <span class="nc">Client</span><span class="w"> </span><span class="p">{</span>
@@ -13672,7 +13731,7 @@ Insufficient funds
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-java"><pre><span></span><span class="kd">class</span> <span class="nc">C</span><span class="w"> </span><span class="p">{</span>
@@ -13693,13 +13752,42 @@ Insufficient funds
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Attempting to then get <code>data</code> or call <code>disp</code> from an instance of <code>C</code> would then be disallowed outside the class itself:</p>
-<div class="highlight"><pre><span></span><span class="k">new</span><span class="w"> </span><span class="n">C</span><span class="p">().</span><span class="na">disp</span><span class="p">();</span><span class="w"> </span><span class="c1">// external use of disp method</span>
-<span class="c1">// error:</span>
-<span class="c1">// disp() has private access in C</span>
-</pre></div>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="k">new</span><span class="w"> </span><span class="n">C</span><span class="p">().</span><span class="na">disp</span><span class="p">();</span><span class="w"> </span><span class="c1">// external use of disp method</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-black-intense-fg ansi-bold">|   </span><span class="ansi-black-intense-fg ansi-red-bg ansi-bold">new C().disp</span><span class="ansi-black-intense-fg ansi-bold">(); // external use of disp method</span>
+<span class="ansi-red-intense-fg ansi-bold">disp() has private access in C</span>
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
@@ -13711,7 +13799,7 @@ Insufficient funds
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-java"><pre><span></span><span class="kd">class</span> <span class="nc">C</span><span class="w"> </span><span class="p">{</span>
@@ -13758,7 +13846,7 @@ Insufficient funds
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-java"><pre><span></span><span class="kd">class</span> <span class="nc">Account</span><span class="w"> </span><span class="p">{</span>
@@ -13804,7 +13892,7 @@ Insufficient funds
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-java"><pre><span></span><span class="n">Account</span><span class="w"> </span><span class="n">acc1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Account</span><span class="p">(</span><span class="s">&quot;Brenda&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">34</span><span class="p">,</span><span class="w"> </span><span class="mf">5473.12</span><span class="p">);</span>
@@ -13880,7 +13968,7 @@ Insufficient funds
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-java"><pre><span></span><span class="kd">class</span> <span class="nc">Account</span><span class="w"> </span><span class="p">{</span>
@@ -13927,7 +14015,7 @@ Insufficient funds
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-java"><pre><span></span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">Account</span><span class="p">.</span><span class="na">getTotalMoney</span><span class="p">());</span><span class="w">  </span><span class="c1">// start w/ 0</span>
@@ -13976,7 +14064,7 @@ Withdrawal successful
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-java"><pre><span></span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">acc1</span><span class="p">.</span><span class="na">getTotalMoney</span><span class="p">());</span>
@@ -14018,7 +14106,7 @@ Withdrawal successful
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Imports-:-Getting-Outside-Help">Imports : Getting Outside Help<a class="anchor-link" href="#Imports-:-Getting-Outside-Help">&#182;</a></h2><p>Besides classes we make, there are also many classes that <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/module-summary.html">java provides for us</a>. Of the things used so far in this presentation, both <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html"><code>String</code></a> and <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/System.html"><code>System</code></a> were provided by java.</p>
+<h2 id="Imports-:-Getting-Outside-Help">Imports : Getting Outside Help<a class="anchor-link" href="#Imports-:-Getting-Outside-Help">&#182;</a></h2><p>Besides classes we make, there are also many classes that <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/module-summary.html">java provides for us</a>. Of the things used so far in this document, both <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html"><code>String</code></a> and <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/System.html"><code>System</code></a> were provided by java.</p>
 <p>However, there are also things java provides us, but hides initially, in order to reduce clutter. For example, besides arrays, there are also many useful collections in <code>java.util</code>,  but as it's hidden away from us, we'd need to import it first:</p>
 
 </div>
@@ -14026,7 +14114,7 @@ Withdrawal successful
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-java"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.List</span><span class="p">;</span>
@@ -14066,7 +14154,7 @@ Withdrawal successful
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-java"><pre><span></span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">java</span><span class="p">.</span><span class="na">util</span><span class="p">.</span><span class="na">List</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">));</span>
@@ -14151,7 +14239,7 @@ Withdrawal successful
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-java"><pre><span></span><span class="c1">// in file &quot;Main.java&quot;</span>
@@ -14170,7 +14258,7 @@ Withdrawal successful
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-java"><pre><span></span><span class="n">Main</span><span class="p">.</span><span class="na">main</span><span class="p">();</span><span class="w"> </span><span class="c1">// simulate running the program, since jshell doesn&#39;t automatically do it</span>
@@ -14245,7 +14333,7 @@ Withdrawal successful
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-java"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="p">){</span>
@@ -14282,14 +14370,14 @@ Withdrawal successful
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>And in this presentation, we introduced methods like <code>Account.withdraw</code>,</p>
+<p>And in this document, we introduced methods like <code>Account.withdraw</code>,</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-java"><pre><span></span><span class="k">new</span><span class="w"> </span><span class="n">Account</span><span class="p">(</span><span class="s">&quot;joe&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">34</span><span class="p">,</span><span class="w"> </span><span class="mf">100.0</span><span class="p">).</span><span class="na">withdraw</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span>
@@ -14336,14 +14424,14 @@ Withdrawal successful
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Our add function in the previous slide can be represented as a static method in our program:</p>
+<p>Our add function in the previous document can be represented as a static method in our program:</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-java"><pre><span></span><span class="kd">class</span> <span class="nc">Main</span><span class="p">{</span><span class="w"> </span>
@@ -14379,20 +14467,6 @@ Withdrawal successful
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Generics-And-Type-Parameters">Generics And Type Parameters<a class="anchor-link" href="#Generics-And-Type-Parameters">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Actual-Function-Expressions-(AKA-'lambdas')">Actual Function Expressions (AKA 'lambdas')<a class="anchor-link" href="#Actual-Function-Expressions-(AKA-'lambdas')">&#182;</a></h2>
-</div>
-</div>
 </div>
     </div>
   </div>
