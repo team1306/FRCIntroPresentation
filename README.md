@@ -27,10 +27,48 @@ Alternatively, the ipynb files can be viewed directly through [nbviewer](https:/
 The content is broken down into 4 different parts: 
 
 1. basic java: introducing basic java concepts such as control structures, statements, and scoping through jshell.
+    - Statements
+    - Comments
+    - Variables and Types
+    - Conditionals (ifs)
+    - Loops (while, for)
+    - Functions
+    - Scopes
+    - Operators (arith & logical)
+    - Arrays
 2. classes in java: introducing classes, as well as fields/methods, and creating complete java programs without jshell.
+    - Classes (syntax & motivation)
+    - Fields & Methods
+    - Constructors
+    - Access Modifiers
+    - Static Modifier (maybe add section on final)
+    - Import & Packages
 3. even more java: expands on classes, and introduces interfaces, generics, and more advanced java features.
+    - Inheritance & Polymorphism
+    - Abstrac Classes
+    - Interfaces
+    - Javadocs
+    - Generics (TODO)
+    - Enums (TODO)
+    - Lambdas and method references(TODO)
 4. frc introduction: introducing FRC programming by installing and introducing tools, and taking a brief look at the code.
+    - Tool installation (WPILib, Git)
+    - FRC Project Creation
+    - Project Structure & Deployment
+    - 3rd Party Libraries
+    - Code Structure
+    - Electronics in Code
+    - Competition Phases
+    - Git introduction
 5. frc in detail: introducing code in detail in conjunction with the command-based design philosophy and how its implemented.
+    - High-level Organization
+    - Subsystems
+    - Commands
+    - Subsystem-Command interactions
+    - Command Scheduler
+    - Command Groupings (might be out of date)
+    - Controller Inputs
+    - General Project Organization
 
 > Note, none of the documents are fully exhaustive in their content. For more in depth explanations, look for long form tutorials on websites like [Baeldung](https://www.baeldung.com/get-started-with-java-series), or alternatively, look at the [java language specification](https://docs.oracle.com/javase/specs/jls/se17/jls17.pdf)
 
