@@ -14024,14 +14024,285 @@ foo2
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Generics-And-Type-Parameters">Generics And Type Parameters<a class="anchor-link" href="#Generics-And-Type-Parameters">&#182;</a></h2>
+<h2 id="Generics-(Parametric-Polymorphism)">Generics (Parametric Polymorphism)<a class="anchor-link" href="#Generics-(Parametric-Polymorphism)">&#182;</a></h2><p>A good introduction to why we need Generics is the problem of trying to give types to containers. Imagine now that we need to create some class that can store any arbitrary pair of elements of possibly different types, like so:</p>
+<div class="highlight"><pre><span></span><span class="n">Pair</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Pair</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="na">getFirst</span><span class="p">();</span><span class="w"> </span><span class="c1">// gets first value, which is an int</span>
+<span class="n">String</span><span class="w"> </span><span class="n">second</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="na">getSecond</span><span class="p">();</span><span class="w"> </span><span class="c1">// gets second value, which is a string</span>
+</pre></div>
+<p>but what if we want a different pair with different types?</p>
+<div class="highlight"><pre><span></span><span class="n">Pair</span><span class="w"> </span><span class="n">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Pair</span><span class="p">(</span><span class="sc">&#39;a&#39;</span><span class="p">,</span><span class="w"> </span><span class="mf">4.4</span><span class="p">);</span>
+<span class="c1">// uh oh!</span>
+<span class="kt">char</span><span class="w"> </span><span class="n">first2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p2</span><span class="p">.</span><span class="na">getFirst</span><span class="p">();</span>
+<span class="kt">double</span><span class="w"> </span><span class="n">second2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p2</span><span class="p">.</span><span class="na">getSecond</span><span class="p">();</span>
+</pre></div>
+<p>Now getFirst and getSecond return different types than before and we're stuck with a problem on our hands. That problem being the way we've been defining methods so far has no way to account for this variance, and we certainly don't want to define an implementation for every single possible pair of values.</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Enumerations-(Enums)">Enumerations (Enums)<a class="anchor-link" href="#Enumerations-(Enums)">&#182;</a></h2>
+<h3 id="Taking-Types-as-Parameters">Taking Types as Parameters<a class="anchor-link" href="#Taking-Types-as-Parameters">&#182;</a></h3><p>Notice here that neither <code>getFirst</code> or <code>getSecond</code> use any of the actual fields or methods of int/char or String/double, but rather simply give them back. In other words, they don't care what's type of value is contained as the 1st or 2nd element.</p>
+<p>This disregard is something we can use to write a single implmentation that can encapsulate all possible pairs of numbers, while ensuring that the types of our methods are correct. To do so, we use what is called a <code>type parameter</code>, where a type is expected to be given by the user (much like how for a normal parameter in a method expects a value).</p>
+<blockquote>
+<p>Notice how <code>&lt;</code> and <code>&gt;</code> are used for type paremeters instead of <code>(</code> and <code>)</code>, as well as the fact that type parameters have their first letter capitalize (like class names)</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="c1">// our type parameters (note that they can also be associated with classes, not just functions)</span>
+<span class="kd">class</span> <span class="nc">Pair</span><span class="o">&lt;</span><span class="n">First</span><span class="p">,</span><span class="w"> </span><span class="n">Second</span><span class="o">&gt;</span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// using our type parameters for fields</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">First</span><span class="w"> </span><span class="n">fst</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Second</span><span class="w"> </span><span class="n">snd</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// using our type parameters for constructor arguments</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Pair</span><span class="p">(</span><span class="n">First</span><span class="w"> </span><span class="n">fst</span><span class="p">,</span><span class="w"> </span><span class="n">Second</span><span class="w"> </span><span class="n">snd</span><span class="p">){</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">fst</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fst</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">snd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">snd</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// using type params in methods</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">First</span><span class="w"> </span><span class="nf">getFirst</span><span class="p">(){</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">fst</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Second</span><span class="w"> </span><span class="nf">getSecond</span><span class="p">(){</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">snd</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To then create our newly parameterized class, we'd provide our type arguments in <code>&lt;</code> and <code>&gt;</code> before our actual arguments:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="n">Pair</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">pair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Pair</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="n">String</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pair</span><span class="p">.</span><span class="na">getFirst</span><span class="p">();</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pair</span><span class="p">.</span><span class="na">getSecond</span><span class="p">();</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote>
+<p>Try playing around here and see whether errors occur if you switch up the types of <code>f</code> and <code>s</code>, or provide <code>&quot;a&quot;</code> and <code>&quot;b&quot;</code> instead of <code>&quot;a&quot;</code> and <code>1</code> like shown above</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, you may feel that our initalization of <code>Pair&lt;String, Integer&gt; pair = new Pair&lt;String, Integer&gt;</code> is starting to become quite unsightly, after all it uses the object's type (<code>Pair&lt;String, Integer&gt;</code>) multiple times: once to assign the variable's type and again to call the constructor. Luckily here there are two constructs that we can use do make the syntax more succinct.</p>
+<ol>
+<li>we can use what is called the <code>diamond pattern</code> (due to the shape of <code>&lt;&gt;</code>) on the constructor, where we provide an empty list of type parameters, thereby telling java to try and infer them:</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="n">Pair</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">pair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Pair</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol start="2">
+<li>we can use our <code>var</code> keyword from earlier in order to infer the assigned type (this can often be used in conjunction with the above pattern, but sometimes when java can't infer our type parameters without an assigned type, it's not feasible)</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="kd">var</span><span class="w"> </span><span class="n">pair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Pair</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="c1">// much better looking :)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote>
+<p style="text-align:center">NOTE : Boxing</p>
+<p>You may have noticed that for our pair example above, when we created our pair above with an integer, we didn't pass the primitive <code>int</code> as the second type argument, instead we passed something called <code>Integer</code>, which we haven't seen yet.</p>
+<p>The reason for that is because in java, our type arguments can't be primitive types (for <a href="https://stackoverflow.com/questions/2721546/why-dont-java-generics-support-primitive-types">some reasons</a> beyond the scope of this document). Instead we have a number of classes which serve as analogues to those primatives (Integer to int, Long to long, Double to double, Character to char, and etc.) These classes in particular are special because they can be set to each other seamlessly, as the language automatically converts between them through a process called <code>auto-(un)boxing</code></p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="c1">// it just works</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
+<span class="n">Integer</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Enumerations-(Enums)">Enumerations (Enums)<a class="anchor-link" href="#Enumerations-(Enums)">&#182;</a></h2><p>At its simplest, enumerations are just a group of constants, like for example the cardinal directions (N,S,E,W), the days of the week (M,Tu,W,Th,F,Sa,Su), or types of motors (Brushed, Brushless).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="kd">enum</span><span class="w"> </span><span class="n">Direction</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// how we list all the constants in the enum, notice the lack of an ending semicolon</span>
+<span class="w">    </span><span class="n">NORTH</span><span class="p">,</span><span class="w"> </span><span class="n">SOUTH</span><span class="p">,</span><span class="w"> </span><span class="n">EAST</span><span class="p">,</span><span class="w"> </span><span class="n">WEST</span>
+<span class="p">}</span>
+<span class="c1">// how we get the individual constants</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">Direction</span><span class="p">.</span><span class="na">NORTH</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">Direction</span><span class="p">.</span><span class="na">EAST</span><span class="p">);</span>
+<span class="c1">// get all things</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">Arrays</span><span class="p">.</span><span class="na">toString</span><span class="p">(</span><span class="n">Direction</span><span class="p">.</span><span class="na">values</span><span class="p">()))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>NORTH
+EAST
+[NORTH, SOUTH, EAST, WEST]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>But sometimes we don't want just some constant, we also want to associate some useful values (like a rotation) or actions (like a unit conversion). Luckily, the enum declaration also creates a <code>class</code>, which we can provide fields and methods to. In a similar vein, you can also define constructors for an enum, but they must be private so that they can't be used outside of the enum class itself.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="kd">enum</span><span class="w"> </span><span class="n">Rotation</span><span class="p">{</span>
+<span class="w">    </span><span class="n">QUARTER</span><span class="p">(</span><span class="mi">90</span><span class="p">),</span>
+<span class="w">    </span><span class="n">HALF</span><span class="p">(</span><span class="mi">180</span><span class="p">),</span>
+<span class="w">    </span><span class="n">THREE_QUARTER</span><span class="p">(</span><span class="mi">270</span><span class="p">),</span>
+<span class="w">    </span><span class="n">FULL</span><span class="p">(</span><span class="mi">360</span><span class="p">);</span><span class="w"> </span><span class="c1">// note: semicolon here</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">rotDeg</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="nf">Rotation</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">degrees</span><span class="p">){</span>
+<span class="w">        </span><span class="n">rotDeg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">degrees</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">getDegrees</span><span class="p">(){</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">rotDeg</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">toRadians</span><span class="p">(){</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">rotDeg</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Math</span><span class="p">.</span><span class="na">PI</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">180</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">Rotation</span><span class="p">.</span><span class="na">HALF</span><span class="p">.</span><span class="na">toRadians</span><span class="p">());</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>3.141592653589793
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Usages">Usages<a class="anchor-link" href="#Usages">&#182;</a></h3><p>Though quite a small feature, enumerations, especially the simple kind mentioned first are commonplace throughout FRC programming as a way to represent configurations--whether that be for motors like detailed above, or for states, device modes, and etc.</p>
+
 </div>
 </div>
 </div>
@@ -14039,6 +14310,20 @@ foo2
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Function-Expressions-(Lambdas)">Function Expressions (Lambdas)<a class="anchor-link" href="#Function-Expressions-(Lambdas)">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Functional-(Single-Abstract-Method)-Interfaces">Functional (Single Abstract Method) Interfaces<a class="anchor-link" href="#Functional-(Single-Abstract-Method)-Interfaces">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Method-References">Method References<a class="anchor-link" href="#Method-References">&#182;</a></h3>
 </div>
 </div>
 </div>
