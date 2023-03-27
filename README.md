@@ -9,6 +9,8 @@ there are a few things that are needed for this series of documents:
 - [Java Development Kit](https://adoptium.net/temurin/releases/?version=17)
 - [WPILib](https://docs.wpilib.org/en/stable/docs/zero-to-robot/step-2/wpilib-setup.html)
 - [git](https://github.com/git-guides/install-git)
+- [Phoenix 5 framework](https://store.ctr-electronics.com/software/)
+- [REV hardware client](https://docs.revrobotics.com/rev-hardware-client/)
 
 The JDK is essential to running java code and comes with JShell, which will be used for demonstration purposes.
 
@@ -45,33 +47,37 @@ The content is broken down into 4 different parts:
     - Import & Packages
 3. even more java: expands on classes, and introduces interfaces, generics, and more advanced java features.
     - Inheritance & Polymorphism
-    - Abstrac Classes
+    - Abstract Classes
     - Interfaces
     - Javadocs
-    - Generics (TODO)
-    - Enums (TODO)
-    - Lambdas and method references(TODO)
+    - Generics 
+    - Enums
 4. frc introduction: introducing FRC programming by installing and introducing tools, and taking a brief look at the code.
     - Tool installation (WPILib, Git)
     - FRC Project Creation
     - Project Structure & Deployment
     - 3rd Party Libraries
     - Code Structure
+    - Electronics (identifications)
     - Electronics in Code
     - Competition Phases
     - Git introduction
-5. frc in detail: introducing code in detail in conjunction with the command-based design philosophy and how its implemented.
+5. frc code in detail: introducing code components in detail 
     - High-level Organization
     - Subsystems
-    - Commands
-    - Subsystem-Command interactions
-    - Command Scheduler
-    - Command Groupings (might be out of date)
-    - Controller Inputs
+    - Controller Inputs through polling
     - General Project Organization
-
+6. lambdas and command-based design / philosophy 
+    - Lambdas and method references 
+    - Commands
+    - Command Scheduler
+    - Subsystem-Command interactions
+    - Command factories
+    - BooleanEvents and Triggers as alternatives to polling
+    
 > Note, none of the documents are fully exhaustive in their content. For more in depth explanations, look for long form tutorials on websites like [Baeldung](https://www.baeldung.com/get-started-with-java-series), or alternatively, look at the [java language specification](https://docs.oracle.com/javase/specs/jls/se17/jls17.pdf)
-
+>
+> For information more related to FRC programming, it is best to visit the [wpilib documentation](https://docs.wpilib.org/en/stable/index.html) (An offline copy can be accessed after installing WPILib)
 ## Contribution / Building
 
 To make modifications, it's necessary to install [jupyter](https://jupyter.org/install) as well as the [java kernel](https://github.com/SpencerPark/IJava). From there, either use the provided editor, or notebook extensions/plugins on editors like VSCode to make changes to the files inside `Notebooks`. 
