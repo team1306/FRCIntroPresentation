@@ -13303,7 +13303,59 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Examining-the-code">Examining the code<a class="anchor-link" href="#Examining-the-code">&#182;</a></h2><p>After looking at how the project is organized, we can start looking at the code. We won't need to look at Main.java, all that does is start the robot. Instead the rest is handled by <code>Robot.java</code> and the things it depends upon.</p>
+<h2 id="Electronic-Identification">Electronic Identification<a class="anchor-link" href="#Electronic-Identification">&#182;</a></h2><p>Before jumping into the code, it's worthwhile to consider how each component communicates with each other. On a current FRC robot, most of the electronics -- besides being connected to power -- communicate with each other through what is known as a CAN (<strong>C</strong>ontrol <strong>A</strong>rea  <strong>N</strong>etwork) bus. On this CAN bus (the thin <span style="background-color: #d5dc28">yellow</span> and <span style="background-color: #37b04a">green</span> wires running through the electrical components from the Power Distribution Hub to the RoboRIO in the image below), each electronic (the falcons, the talons, the sparks MAXes, the Pneumatics hub, and etc.) are each given a specific identification number, which is used to send messages to that particular component.</p>
+<center>
+    <img src = "../Images/frc-control-system-layout-rev.svg" width = 900>
+</center>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To find out / change these identification numbers, we'd use one of two methods depending on which vendor the items came from (see README.md for the two tools used).</p>
+<h3 id="CTR-Electronics">CTR Electronics<a class="anchor-link" href="#CTR-Electronics">&#182;</a></h3><p>For CTRE devices like the TalonSRX, Falon, or VictorSPX , find and assign IDs, we'd have to:</p>
+<ol>
+<li>first wire up our robot, turn it on, and connect to it via a USB A to B cable.</li>
+<li>open up Phoenix Tuner (which should have come with the Phoenix framework install)<ul>
+<li>alternatively, install and use Phoenix Tuner X on the windows store</li>
+</ul>
+</li>
+<li><code>Run Temporary Diagnostic Server</code> once connected; once done, the text on the bottom textbar should be green</li>
+<li>head to the <code>Can Devices</code> tab at the top, look for the electronics you're interested in and check their ID field<ul>
+<li>you can check which device is which by selecting one and <code>Blink</code>ing it</li>
+</ul>
+</li>
+</ol>
+<center>
+    <img src = "../Images/phoenixTunerExample.png" width = 800>
+</center>
+<h3 id="REV-Robotics">REV Robotics<a class="anchor-link" href="#REV-Robotics">&#182;</a></h3><p>For REV devices like the Spark MAX or the pneumatic hub, to find/assign IDs, we would:</p>
+<ol>
+<li>connect to a device on the CAN bus via a USB C cable (they should all come with an orange one)</li>
+<li>open the Rev Hardware Client</li>
+<li>relevant CAN devices should be visible on the left hand side, click on each to view their properties; click the light icon to blink and identify the device</li>
+</ol>
+<center>
+    <img src = "../Images/RevClient.png" width = 800>
+</center>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For the Pneumatics (PH, PCM) / Power (PDH, PDP) hubs, the CAN identities should usually not be modified, however for devices like motor controllers, each controller should have a distinct ID number.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Examining-the-code">Examining the code<a class="anchor-link" href="#Examining-the-code">&#182;</a></h2><p>After looking at how the project is organized and the types of electronics that are present, we can start looking at the code. We won't need to look at Main.java, all that does is start the robot. Instead the rest is handled by <code>Robot.java</code> and the things it depends upon.</p>
 
 </div>
 </div>
@@ -13437,7 +13489,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Robot-&amp;-Competition-Phases">Robot &amp; Competition Phases<a class="anchor-link" href="#Robot-&amp;-Competition-Phases">&#182;</a></h2>
+<h2 id="Robot-Overview-&amp;-Competition-Phases">Robot Overview &amp; Competition Phases<a class="anchor-link" href="#Robot-Overview-&amp;-Competition-Phases">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -13530,7 +13582,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Getting-The-Code">Getting The Code<a class="anchor-link" href="#Getting-The-Code">&#182;</a></h3><p>The code for our current robot is located at <a href="https://github.com/team1306/Robot2022">https://github.com/team1306/Robot2022</a>, so we can get it from the internet using a git command.</p>
+<h3 id="Getting-The-Code">Getting The Code<a class="anchor-link" href="#Getting-The-Code">&#182;</a></h3><p>The code for our example robot is located at <a href="https://github.com/team1306/Robot2022">https://github.com/team1306/Robot2022</a>, so we can get it from the internet using a git command.</p>
 
 </div>
 </div>
@@ -13572,6 +13624,9 @@ div#notebook {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Opening that up in a new VSCode window (double click VSCode, then go to <code>file (top left) &gt; open folder</code> and find where you downloaded that file). It might ask you to do something, and then rebuild, because something in the main respository is out of date. Do that, and then you should see a blue circle on an icon on the left hand side.(Left Image)</p>
+<blockquote>
+<p>NOTE if this is still used: this might no longer be true. If it's telling you to import into a new version which causes the project to have errors. Instead clone the latest version of the robot code instead of this repository</p>
+</blockquote>
 <p>Click on that, and it should bring you do this tab, which lists all the changes you've made in this session (Right Image):</p>
 <center>
   <img src="../Images/VSCLeftMenu.png" alt = "" height = 300/>

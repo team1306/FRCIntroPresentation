@@ -3,7 +3,7 @@
 <head><meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Doc5FRCProgramDesign</title><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>Doc6Commands</title><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 
 <style type="text/css">
   pre { line-height: 125%; }
@@ -13089,7 +13089,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Robot-Code-in-Detail">Robot Code in Detail<a class="anchor-link" href="#Robot-Code-in-Detail">&#182;</a></h1><p>Previously, we opened and started to take a look at the <code>Robot.java</code> file for our example project, and also cloned our own robot for the 2022 season using git. Now we'll take a look a closer look at the code, as well as the organization, patterns, and design philosophy that underpins it.</p>
+<h1 id="Command-Based-Programming">Command Based Programming<a class="anchor-link" href="#Command-Based-Programming">&#182;</a></h1><p>The previous</p>
 
 </div>
 </div>
@@ -13097,7 +13097,35 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Conceptual-Organization">Conceptual Organization<a class="anchor-link" href="#Conceptual-Organization">&#182;</a></h2><p>Building and programming a robot can be a complicated task that involves keeping track of a large number of electronics. If we try to handle everything just using the features provided in our <code>Robot.java</code> file, we'd quickly see that it becomes unsustainable.</p>
+<h2 id="Lambdas">Lambdas<a class="anchor-link" href="#Lambdas">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Functional-Interfaces-and-Anonymous-Functions">Functional Interfaces and Anonymous Functions<a class="anchor-link" href="#Functional-Interfaces-and-Anonymous-Functions">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Method-References">Method References<a class="anchor-link" href="#Method-References">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Why-Does-it-Matter:-The-Issue-with-Just-Having-Subsystems">Why Does it Matter: The Issue with Just Having Subsystems<a class="anchor-link" href="#Why-Does-it-Matter:-The-Issue-with-Just-Having-Subsystems">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Having <em>just</em> <code>Subsystem</code> as an abstraction still falls short in a big way:</p>
 
 </div>
 </div>
@@ -13105,12 +13133,169 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Instead, to keep our code at least moderately understandable, we can split our code from one giant <code>Robot</code> class to several individual classes that each handle a specific task, in line with the <a href="https://en.wikipedia.org/wiki/Separation_of_concerns">seperation of concerns</a> principle.</p>
-<p>The benefits of this are that:</p>
+<h2 id="Commands">Commands<a class="anchor-link" href="#Commands">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="A-Basic-Structure-/-The-Manual-Way">A Basic Structure / The Manual Way<a class="anchor-link" href="#A-Basic-Structure-/-The-Manual-Way">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="A-Command's-Constituent-Components">A Command's Constituent Components<a class="anchor-link" href="#A-Command's-Constituent-Components">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="CommandBase-and-A-Worked-Example">CommandBase and A Worked Example<a class="anchor-link" href="#CommandBase-and-A-Worked-Example">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="A-Better,-Functional-Way">A Better, Functional Way<a class="anchor-link" href="#A-Better,-Functional-Way">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Command-Factories">Command Factories<a class="anchor-link" href="#Command-Factories">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Some-Selected-Examples">Some Selected Examples<a class="anchor-link" href="#Some-Selected-Examples">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Events-and-Triggers-:-An-Addendum-to-Inputs">Events and Triggers : An Addendum to Inputs<a class="anchor-link" href="#Events-and-Triggers-:-An-Addendum-to-Inputs">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Limits-of-Polling-Boolean-Inputs">Limits of Polling Boolean Inputs<a class="anchor-link" href="#Limits-of-Polling-Boolean-Inputs">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Eventloop-and-BooleanEven-Objects">Eventloop and BooleanEven Objects<a class="anchor-link" href="#Eventloop-and-BooleanEven-Objects">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Trigger-Objects">Trigger Objects<a class="anchor-link" href="#Trigger-Objects">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>*<strong>We still have to manually check each input case and map that to some chain of actions!!</strong>*</p>
+<div class="highlight"><pre><span></span><span class="nd">@Override</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">robotPeriodic</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="cm">/* input case 1*/</span><span class="p">){</span>
+<span class="w">        </span><span class="c1">// do something w/ some subsystems</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="cm">/* input case 2 */</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// do something else w/ other subsystems</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We see that with enough cases and complexity, this pattern becomes unsustainable</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>(note)We also have to manually deal with conflicts in our design; for example if we accidently had 2 input cases that needed to use the same subsystem at the same time.... things would break</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Commands">Commands<a class="anchor-link" href="#Commands">&#182;</a></h2><blockquote>
+<p>Commands are simple state machines that perform high-level robot functions using the methods defined by subsystems. Commands can be either idle, in which they do nothing, or scheduled, in which the scheduler will execute a specific set of the command’s code depending on the state of the command. The CommandScheduler recognizes scheduled commands as being in one of three states: initializing, executing, or ending. Commands specify what is done in each of these states through the initialize(), execute() and end() methods.</p>
+<p>- WPIlib documentation</p>
+</blockquote>
+<p>Commands are an abstraction over actions/ responsibilities that can be performed at any given time.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Creating-a-Command">Creating a Command<a class="anchor-link" href="#Creating-a-Command">&#182;</a></h3><p>To create a command, extend the <code>CommandBase</code> class, and override a few important methods, those being <code>initialize</code>, <code>execute</code>, <code>end</code>, and <code>isFinished</code></p>
+<div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">edu.wpi.first.wpilibj2.command.CommandBase</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">ExampleCommand</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">CommandBase</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nd">@Override</span>
+<span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">initialize</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="w">  </span><span class="nd">@Override</span>
+<span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">execute</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="w">  </span><span class="nd">@Override</span>
+<span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">end</span><span class="p">(</span><span class="kt">boolean</span><span class="w"> </span><span class="n">interrupted</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="w">  </span><span class="nd">@Override</span>
+<span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">isFinished</span><span class="p">(){</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>initialize</code> : when the command starts executing (similar to the <code>&lt;x&gt;Init</code> methods)</p>
 <ul>
-<li>if something doesn't work, we can more easily find where the problem came from</li>
-<li>someone reading our code (including us in the future) can better understand what the code does</li>
-<li>it's much nicer to look at :)</li>
+<li>set up everything needed for the execution of the command</li>
+</ul>
+<p><code>execute</code> : while the command is running (similar to the <code>&lt;x&gt;Periodic</code> methods)</p>
+<ul>
+<li>the main thing  the action/command is trying to accomplish</li>
+</ul>
+<p><code>end</code> : directly after the command stops running</p>
+<ul>
+<li>clean up and finalize the command (bring it to a conclusion)</li>
+<li>the <code>interrupted</code> parameter is whether it finished successfully (<code>false</code>) or was shut down by the scheduler (<code>true</code>)</li>
+</ul>
+<p><code>isFinished</code> checks whether the command has accomplished its goal</p>
+<ul>
+<li>if it returns <code>true</code>, then <code>end</code> will be called with <code>false</code> and execution for the command will stop</li>
+<li>always returning false makes it never stop unless interrupted</li>
 </ul>
 
 </div>
@@ -13119,7 +13304,8 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Luckily, WPILib provides us with such a design through their <code>&quot;Command-Based&quot; Programming</code> methodology</p>
+<h4 id="Note-:-Default-Behaviors">Note : Default Behaviors<a class="anchor-link" href="#Note-:-Default-Behaviors">&#182;</a></h4><p>by default the <code>end</code>, <code>initialize</code>, and <code>execute</code> methods do nothing, and <code>isFinished</code> always returns false, so a very simple command that always runs in the background can get away with just overriding <code>execute</code>.</p>
+<p>We'll expand on this later by introducing default commands</p>
 
 </div>
 </div>
@@ -13127,78 +13313,259 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>For our robot, we can break down the task of <code>running the robot</code> into 4 seperate layers, those being</p>
+<h3 id="Binding-Subsystems">Binding Subsystems<a class="anchor-link" href="#Binding-Subsystems">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A Command like that on its own isn't very helpful, commands need to interact with subsystems to perform some useful action. To specify which subsystems, we need to call the <code>addRequirements</code> method of <code>CommandBase</code> on all the subsystems that we need (usually in the constructor).</p>
+<div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">ExampleCommand</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">CommandBase</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">ExampleCommand</span><span class="p">(){</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">addRequirements</span><span class="p">(</span><span class="n">subsys1</span><span class="p">,</span><span class="w"> </span><span class="n">subsys2</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">execute</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// do stuff</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>But how do we get those subsystems???</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note : If we created these subsystem in the command, then we'd have duplicate sub-systems for the same components!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can do it cleanly by passing subsystem objects to the constructor:</p>
+<div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">ExampleCommand</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">CommandBase</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">ExampleCommand</span><span class="p">(</span><span class="n">SubSystemName</span><span class="w"> </span><span class="n">subsys1</span><span class="p">,</span><span class="w"> </span><span class="p">...){</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">addRequirements</span><span class="p">(</span><span class="n">subsys1</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This is an example of a pattern called <code>dependency injection</code> where things that the command needs (dependencies) are provided (injected). This helps seperate the creation and usage of out subsystems, in a nod to the principle of <code>seperation of concerns</code> from before.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Default-Commands">Default Commands<a class="anchor-link" href="#Default-Commands">&#182;</a></h3><p>One particular command usage for a command is to have it always run. These commands often handle core background tasks that are essential to the function of the robot, like a <code>drive</code> command that controls robot motion.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>for these types of commands, we can make that command a <code>default</code> command of the subsystem:</p>
+<div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">ExampleCommand</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">CommandBase</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">ExampleCommand</span><span class="p">(</span><span class="n">SubSystemName</span><span class="w"> </span><span class="n">subsys1</span><span class="p">){</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">addRequirements</span><span class="p">(</span><span class="n">subsys1</span><span class="p">);</span>
+<span class="w">        </span><span class="c1">// this refers to the current object</span>
+<span class="w">        </span><span class="n">subsys1</span><span class="p">.</span><span class="na">setDefaultCommand</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If the subsystem is not the requirement of some other command, then this default command will be executed.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Example-Command">Example Command<a class="anchor-link" href="#Example-Command">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<div class="highlight"><pre><span></span><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ClimberCommand</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">CommandBase</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Climber</span><span class="w"> </span><span class="n">climber</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">UserAnalog</span><span class="w"> </span><span class="n">speed</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// climber is the subsystem</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">ClimberCommand</span><span class="p">(</span><span class="n">Climber</span><span class="w"> </span><span class="n">climber</span><span class="p">,</span><span class="w"> </span><span class="n">UserAnalog</span><span class="w"> </span><span class="n">speed</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">climber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">climber</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">speed</span><span class="p">;</span>
+<span class="w">        </span><span class="c1">// works b/c addRequirements is a method of CommandBase</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">addRequirements</span><span class="p">(</span><span class="n">climber</span><span class="p">);</span>
+<span class="w">        </span><span class="c1">// making it a default command</span>
+<span class="w">        </span><span class="n">climber</span><span class="p">.</span><span class="na">setDefaultCommand</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">execute</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">climber</span><span class="p">.</span><span class="na">extend</span><span class="p">(</span><span class="n">speed</span><span class="p">.</span><span class="na">get</span><span class="p">(),</span><span class="w"> </span><span class="kc">false</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="The-Command-Scheduler">The Command Scheduler<a class="anchor-link" href="#The-Command-Scheduler">&#182;</a></h2><p>Now that we have our command, how do we run it? We defined methods for what to do in different cases with <code>initalize</code>, <code>execute</code>, and <code>end</code>, but we never called them anywhere.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Luckily, there is something that handles this, as well as the general logic of commands for us: the Command Scheduler.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Since there should only be 1 instance of the command scheduler, we get it through an <code>getInstance</code> static method, e.g.</p>
+<div class="highlight"><pre><span></span><span class="c1">// CommandScheduler is what is known as a &quot;singleton&quot;</span>
+<span class="n">CommandScheduler</span><span class="p">.</span><span class="na">getInstance</span><span class="p">().</span><span class="na">run</span><span class="p">();</span>
+</pre></div>
+<p>the CommandScheduler instance has 2 methods of use to us: <code>schedule</code> and <code>run</code></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>schedule</code> sets up a command to be run, and checks whether it makes sense to run the command, and then takes appropriate actions. These checks include:</p>
+<ul>
+<li>whether the command is already scheduled</li>
+<li>whether the subsystems required aren't already being used<ul>
+<li>if they are being used, whether the other commands be interrupted</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>run</code> runs through 1 cycle of the command scheduler, which involves:</p>
+<ul>
+<li>running each Subsystem <code>periodic</code> method</li>
+<li>executing all scheduled commands</li>
+<li>seeing which commands have finished and remove them from the schedule</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Using-commands">Using commands<a class="anchor-link" href="#Using-commands">&#182;</a></h3><p>to use our commands, we'd only need to call <code>schedule</code> on them when the correct condition is met. For our default commands, this isn't necessary. For example, if we wanted some command to run at the very start, then we could do:</p>
+<div class="highlight"><pre><span></span><span class="nd">@Override</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">robotInit</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">CommandScheduler</span><span class="p">.</span><span class="na">getInstance</span><span class="p">().</span><span class="na">schedule</span><span class="p">(</span>
+<span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="n">SomeCommand</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">SomeSubsystem</span><span class="p">(...))</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We'd also need to reliably run our <code>CommandScheduler</code> each cycle, so we would call the <code>run</code> method from <code>robotPeriodic</code>:</p>
+<div class="highlight"><pre><span></span><span class="nd">@Override</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">robotPeriodic</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">CommandScheduler</span><span class="p">.</span><span class="na">getInstance</span><span class="p">().</span><span class="na">run</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Digression-:-Simplicity-&amp;-Abstraction">Digression : Simplicity &amp; Abstraction<a class="anchor-link" href="#Digression-:-Simplicity-&amp;-Abstraction">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Both by using the command scheduler as opposed to manually managing our subsystems, and by using subsystems instead of working with individual electronics, we saw that our code got a lot cleaner, and we were also able to better understand its logic.</p>
+<p>(e.g. It's much easier to understand <code>drive the robot</code> as a high level instruction than it is to understand what happens when individual motors are spun)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This idea of code being much more understandable as more and more gets hidden and abstracted away from us is a common one in computing in general. In very many applications, it's often important that we see which parts of the problem are important for us as people to reason with, and which parts can be handled without us needing to think about it explicitly.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Grouping-Commands">Grouping Commands<a class="anchor-link" href="#Grouping-Commands">&#182;</a></h2><p>We've seen how to work with individual commands, but there are many cases where we want two commands to run at the same time (in parallel), or one after the other (in sequence), or in any number of ways depending on the circumstances.</p>
+<p>Using the existing features, we can use the <code>initalize</code> and <code>end</code> methods to schedule parallel and sequential commands respectively, but WPILib offers us a much more elegant solution...</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Sequencing-commands">Sequencing commands<a class="anchor-link" href="#Sequencing-commands">&#182;</a></h3><p>To run one command after another, we can do one of two things.</p>
 <ol>
-<li>getting user input</li>
-<li>turning input into desired actions</li>
-<li>executing actions on relevant parts of the robot</li>
-<li>making the robot respond physically</li>
+<li>we can a <code>Command</code>'s <code>andThen</code>/<code>beforeStarting</code> methods to run commands after/before some command. (Note that <code>andThen</code> can take &gt; 1 commands, but <code>beforeStarting</code> only takes 1)</li>
 </ol>
-<p>Splitting it up this way, we would also need some additional system that ties them together.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>A simple hypothetical example would be: if (1) a driver pushes a joystick forward on an Xbox controller, (2) it gives a command to drive the robot. This command then (3) tells the subsystem controlling the motors to spin them a certain way, which then (4) makes the robot go forwards.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Going even further, we see that this framework can be used to further break down layers 3 and 2 into individual pieces, called <code>subsystem</code>s, and <code>command</code>s.</p>
-<center>
-  <img src="../Images/SubsysAndComms.svg" alt = "" width = 700/>
-</center>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Subsystems">Subsystems<a class="anchor-link" href="#Subsystems">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<blockquote>
-<p>Subsystems encapsulate lower-level robot hardware (such as motor controllers, sensors, and/or pneumatic actuators), and define the interfaces through which that hardware can be accessed by the rest of the robot code. Subsystems allow users to “hide” the internal complexity of their actual hardware from the rest of their code</p>
-<p>- WPILIB documentation</p>
-</blockquote>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In essense, subsystems are simple abstraction that group bits of hardware that work to control one core part of the robot (like driving). Then, after creating a subsystem, we can communicate with that subsystem directly instead of managing its individual components.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Creating-a-subsystem">Creating a subsystem<a class="anchor-link" href="#Creating-a-subsystem">&#182;</a></h3><p>as Subsystems are quite general containers, so there's not much that we have to provide. To create a subsystem, we'd create a new class that extends from the <code>SubsystemBase</code> class, and optionally provide something to do everytime the command scheduler runs (we'll see this later, but it should be the same freqeuency as <code>robotPeriodic</code>)</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">edu.wpi.first.wpilibj2.command.SubsystemBase</span><span class="p">;</span>
-
-<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ExampleSubsystem</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">SubsystemBase</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="cm">/** Creates a new ExampleSubsystem. */</span>
-<span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="nf">ExampleSubsystem</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
-
-<span class="w">  </span><span class="nd">@Override</span>
-<span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">periodic</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="c1">// This method will be called once per (~20ms)</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight"><pre><span></span><span class="c1">// a chain of commands</span>
+<span class="n">command1</span>
+<span class="w">  </span><span class="p">.</span><span class="na">andThen</span><span class="p">(</span><span class="n">command2</span><span class="p">,</span><span class="w"> </span><span class="n">command3</span><span class="p">)</span>
+<span class="w">  </span><span class="p">.</span><span class="na">beforeStarting</span><span class="p">(</span><span class="n">command0</span><span class="p">);</span>
 </pre></div>
 
 </div>
@@ -13207,131 +13574,16 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>which, if you look at the file in you example project, should be in the <code>frc\robot\subsystems</code> folder</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Subsystem-Example:-Drivetrain">Subsystem Example: Drivetrain<a class="anchor-link" href="#Subsystem-Example:-Drivetrain">&#182;</a></h3><p>The drivetrain consists of the parts of the robot that move the wheels and drive the robot.</p>
-<p>example: West Coast Drive drivetrain</p>
-<center>
-  <img src="../Images/Drivetrain.png" alt = "" width = 800/>
-</center>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The electronic components for the simple model of the drivetrain above are just those four motors (for the sake of space, the example will just have 1).</p>
-<p>A drivetrain subsystem should also have a method that handles the process of moving the motors internally.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>So in code, a drivetrain class would look something like:</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">edu.wpi.first.wpilibj2.command.SubsystemBase</span><span class="p">;</span>
-<span class="c1">// note this is a 3rd party dependency</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">com.ctre.phoenix.motorcontrol.can.TalonFX</span><span class="p">;</span><span class="w"> </span>
-
-<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ExDrivetrain</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">SubsystemBase</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="c1">// we want to handle the motor controllers only in this </span>
-<span class="w">    </span><span class="c1">//subsystem so they should be private</span>
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">TalonFX</span><span class="w"> </span><span class="n">motor1</span><span class="p">;</span>
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">TalonFX</span><span class="w"> </span><span class="n">motor2</span><span class="p">;</span>
-
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">ExDrivetrain</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">motor1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TalonFX</span><span class="p">(</span><span class="cm">/*motor id*/</span><span class="p">);</span>
-<span class="w">        </span><span class="n">motor1</span><span class="p">.</span><span class="na">configFactoryDefault</span><span class="p">();</span>
-<span class="w">        </span><span class="n">motor1</span><span class="p">.</span><span class="na">setNeutralMode</span><span class="p">(</span><span class="n">NeutralMode</span><span class="p">.</span><span class="na">Brake</span><span class="p">);</span>
-
-<span class="w">        </span><span class="n">motor2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TalonFX</span><span class="p">(</span><span class="cm">/*motor id*/</span><span class="p">);</span>
-<span class="w">        </span><span class="n">motor2</span><span class="p">.</span><span class="na">configFactoryDefault</span><span class="p">();</span>
-<span class="w">        </span><span class="n">motor2</span><span class="p">.</span><span class="na">setNeutralMode</span><span class="p">(</span><span class="n">NeutralMode</span><span class="p">.</span><span class="na">Brake</span><span class="p">);</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">driveWheels</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">output1</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">output2</span><span class="p">){</span>
-<span class="w">        </span><span class="c1">// tells the motor controllers to run the motors </span>
-<span class="w">        </span><span class="n">motor1</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">output1</span><span class="p">);</span>
-<span class="w">        </span><span class="n">motor2</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">output2</span><span class="p">);</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-<p>where the <code>drive</code> method serves as the main point of interaction from the outside with the subsystem, while its constructor initalizes all the necessary objects and sets up everything to be run</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Now that we have a subsystem, we can interact with that subsystem instead of interacting with individual electronic components, making our code a whole lot more understandable.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Inputs">Inputs<a class="anchor-link" href="#Inputs">&#182;</a></h2><p>Now that we have made commands that correspond to individual actions and responsibilities, we need some way to know when to schedule commands in response to inputs.</p>
-<p>Fortunately, WPILib also provides many ways to get user inputs though outside devices.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>For our robots in particular, we only use XBox controllers, so we made our own, even simpler system to work with just those controllers.</p>
-<center>
-  <img src="../Images/XBoxController.png" alt = "" width = 600/>
-</center>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Users-In-An-FRC-Competition">Users In An FRC Competition<a class="anchor-link" href="#Users-In-An-FRC-Competition">&#182;</a></h3><p>In an FRC competition, there will be two drivers for each robot. For us, these two drivers are called the <code>Primary</code> and <code>Secondary</code> drivers/players. Under the hood however, these just refer to the particular ports which the controllers are assigned to.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="The-Controller-Class">The Controller Class<a class="anchor-link" href="#The-Controller-Class">&#182;</a></h3><p>For our robot, the inputs are handled by the <code>Controller</code> class in the <code>utils</code> folder.</p>
-<center>
-  <img src="../Images/ControllerUtil.png" alt = "" width = 600/>
-</center>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>To create a binding, we use either the <code>simpleAxis</code> method(which represents an input between -1 and 1, like a joystick) or the <code>simpleButton</code> method (which represents either on or off, like a button).</p>
-<p>We first pass in which controller this refers to, as well as what input to bind.</p>
-<div class="highlight"><pre><span></span><span class="n">UserDigital</span><span class="w"> </span><span class="n">buttonA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Controller</span><span class="p">.</span><span class="na">simpleButton</span><span class="p">(</span>
-<span class="w">    </span><span class="n">Controller</span><span class="p">.</span><span class="na">PRIMARY</span><span class="p">,</span>
-<span class="w">    </span><span class="n">Controller</span><span class="p">.</span><span class="na">BUTTON_A</span>
-<span class="p">);</span>
-
-<span class="n">UserAnalog</span><span class="w"> </span><span class="n">leftTrigger</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Controller</span><span class="p">.</span><span class="na">simpleButton</span><span class="p">(</span>
-<span class="w">    </span><span class="n">Controller</span><span class="p">.</span><span class="na">PRIMARY</span><span class="p">,</span>
-<span class="w">    </span><span class="n">Controller</span><span class="p">.</span><span class="na">AXIS_LY</span>
+<ol start="2">
+<li>we can create a <code>SequentialCommandGroup</code> with all the commands we want to run:</li>
+</ol>
+<div class="highlight"><pre><span></span><span class="k">new</span><span class="w"> </span><span class="n">SequentialCommandGroup</span><span class="p">(</span>
+<span class="w">  </span><span class="n">command0</span><span class="p">,</span>
+<span class="w">  </span><span class="n">command1</span><span class="p">,</span>
+<span class="w">  </span><span class="n">command2</span><span class="p">,</span>
+<span class="w">  </span><span class="n">command3</span>
 <span class="p">);</span>
 </pre></div>
-<p>Note that the values are static constants defined as integers, this is an example of an <code>enumeration</code>, where one particular value or <code>state</code> is represented as an integer. This is a kind of simplified version of the <code>Enums</code> talked about in the previous section, where the names are implicitly given in the form of variables corresponding to different values, as opposed to being explicitly specified in the body of an Enum class</p>
 
 </div>
 </div>
@@ -13339,7 +13591,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The <code>UserDigital</code> and <code>UserAnalog</code> interfaces are the things that represent those individual bindings. To get the input at a particular time, we call their <code>get</code> method (and they should return either a boolean or a double)</p>
+<p>the <code>andThen</code> and <code>beforeStarting</code> methods also return a <code>SequentialCommandGroup</code> object, so both these methods can be equally good. <code>SequentialCommandGroup</code>s are themselves commands, so they also be used wherever any individual <code>Command</code> is needed. (they extend a class which extends CommandBase)</p>
 
 </div>
 </div>
@@ -13347,11 +13599,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<div class="highlight"><pre><span></span><span class="c1">// userdigital example</span>
-<span class="kt">boolean</span><span class="w"> </span><span class="n">isButtonADown</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buttonA</span><span class="p">.</span><span class="na">get</span><span class="p">();</span>
-<span class="c1">// useranalog example</span>
-<span class="kt">double</span><span class="w"> </span><span class="n">leftTriggerOut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">leftTrigger</span><span class="p">.</span><span class="na">get</span><span class="p">();</span>
-</pre></div>
+<h3 id="Parallelizing-Commands">Parallelizing Commands<a class="anchor-link" href="#Parallelizing-Commands">&#182;</a></h3><p>Unlike sequential commands, which just involve running one command, and then running another when the first command finishes, there are many ways to parallelize commands, since those individual commands can end at different times.</p>
 
 </div>
 </div>
@@ -13359,30 +13607,11 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Inputs-with-Subsystems">Inputs with Subsystems<a class="anchor-link" href="#Inputs-with-Subsystems">&#182;</a></h2><p>With these two tools, we can start to create a pretty crude and simple design for how our robot might work by directly adding code into the <code>Robot.java</code> file (something we won't actually be doing a lot with, and we'll see why in the next document).</p>
-<p>A pretty rudimentary example of our robot instructions could be to have it run forwards based on the Y axis values of the left controller joystick during the teleoperated period, which we can represent as the following method in <code>Robot</code>:</p>
-<div class="highlight"><pre><span></span><span class="c1">// in class Robot</span>
-<span class="kd">private</span><span class="w"> </span><span class="n">UserAnalog</span><span class="w"> </span><span class="n">lyaxis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Controller</span><span class="p">.</span><span class="na">simpleAxis</span><span class="p">(</span><span class="n">Controller</span><span class="p">.</span><span class="na">PRIMARY</span><span class="p">,</span><span class="w"> </span><span class="n">Controller</span><span class="p">.</span><span class="na">AXIS_LY</span><span class="p">);</span>
-<span class="kd">private</span><span class="w"> </span><span class="n">ExDriveTrain</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ExDriveTrain</span><span class="p">();</span>
-<span class="c1">// ...</span>
-<span class="nd">@Override</span>
-<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">teleopPeriodic</span><span class="p">(){</span>
-<span class="w">    </span><span class="n">dt</span><span class="p">.</span><span class="na">drive</span><span class="p">(</span><span class="n">lyaxis</span><span class="p">.</span><span class="na">get</span><span class="p">(),</span><span class="w"> </span><span class="n">lyaxis</span><span class="p">.</span><span class="na">get</span><span class="p">());</span>
-<span class="p">}</span>
-</pre></div>
-<p>or perhaps we could've wanted to run our robot forwards if a button was pressed and backwards if it was not:</p>
-<div class="highlight"><pre><span></span><span class="c1">// in class Robot</span>
-<span class="n">UserDigital</span><span class="w"> </span><span class="n">buttonA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Controller</span><span class="p">.</span><span class="na">simpleButton</span><span class="p">(</span><span class="n">Controller</span><span class="p">.</span><span class="na">PRIMARY</span><span class="p">,</span><span class="n">Controller</span><span class="p">.</span><span class="na">BUTTON_A</span><span class="p">);</span>
-<span class="kd">private</span><span class="w"> </span><span class="n">ExDriveTrain</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ExDriveTrain</span><span class="p">();</span>
-<span class="c1">// ...</span>
-<span class="nd">@Override</span>
-<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">teleopPeriodic</span><span class="p">(){</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">buttonA</span><span class="p">.</span><span class="na">get</span><span class="p">())</span>
-<span class="w">        </span><span class="n">dt</span><span class="p">.</span><span class="na">drive</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">);</span>
-<span class="w">    </span><span class="k">else</span>
-<span class="w">        </span><span class="n">dt</span><span class="p">.</span><span class="na">drive</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="p">}</span>
-</pre></div>
+<h4 id="We-Could...">We Could...<a class="anchor-link" href="#We-Could...">&#182;</a></h4><ul>
+<li>end when one of the commands ends</li>
+<li>end when all of the commands end</li>
+<li>end when a specific command ends</li>
+</ul>
 
 </div>
 </div>
@@ -13390,8 +13619,11 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This method of getting inputs frequently, and then passing their current value is a technique known as <code>polling</code>. In a large number of cases (and almost always for our inputs), this is sufficent for what we want to accomplish.</p>
-<p>However, there are times--like when we want to find out when a button is clicked, not just when it's on--where this method is cumbersome. For those times, we'll discuss better, command based alternatives that we can use in those cases in the next document in the sections covering <code>BooleanEvent</code>s and <code>Trigger</code>s</p>
+<h4 id="Luckily,-we-can-do-all-3">Luckily, we can do all 3<a class="anchor-link" href="#Luckily,-we-can-do-all-3">&#182;</a></h4><ol>
+<li>to end when the one command finishes, we can use the <code>raceWith</code> method</li>
+<li>to end when the all commands finish, we can use the <code>alongWith</code> method</li>
+<li>to end when a specific command finishes, we can use the <code>deadlineWith​</code> method</li>
+</ol>
 
 </div>
 </div>
@@ -13399,7 +13631,19 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Program-Organization">Program Organization<a class="anchor-link" href="#Program-Organization">&#182;</a></h2><p>Now that we've seen some of the individual parts of our design, we can look at how they fit together (take about why we disregard Main.java)</p>
+<h4 id="Direct-Construction">Direct Construction<a class="anchor-link" href="#Direct-Construction">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Similar to sequenced command groups, we can also directly construct parallel command group object instead of using those methods. As there are three ways to parallelize commands, there are 3 different parallel command groups that we can use.</p>
+<ol>
+<li>ParallelRaceGroup</li>
+<li>ParallelCommandGroup</li>
+<li>ParallelDeadlineGroup</li>
+</ol>
 
 </div>
 </div>
@@ -13407,9 +13651,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Robot.java">Robot.java<a class="anchor-link" href="#Robot.java">&#182;</a></h3><p>(note : remember, us humans aren't aren't that good at thinking of mechanisms as actions ....)</p>
-<p>The <code>Robot</code> class itself doesn't contain that much in both our Robot codebase as well as in the example project, and this is by design. Because the Robot itself operates off of <strong>time</strong>, and not off of <strong>inputs</strong>, we want to limit the amount of work done in this class.</p>
-<p>All the robot handles are background tasks, such as running the command scheduler (robotPeriodic), and handling phase transitions (teleopInit). The heavy work is done by another class, the <code>RobotContainer</code> (which Robot creates in robotInit).</p>
+<p>The methods from before return values of these types, and values of these parallel groups, like values of sequential command groups, are themselves valid commands</p>
 
 </div>
 </div>
@@ -13417,26 +13659,12 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="RobotContainer">RobotContainer<a class="anchor-link" href="#RobotContainer">&#182;</a></h3><p>the <code>RobotContainer</code> class handles the setting up, as well as storage of all the individual subsystems and commands. Generally, subsystems and commands are created in the constructor of the RobotContainer, and it also specifies which commands to run during autonomous.</p>
-<p>In addition, the RobotContainer should also creates all of our input bindings, before passing them off to the subsystems and commands</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Constants">Constants<a class="anchor-link" href="#Constants">&#182;</a></h3><p>Often, we'll have many values that represent specific constants and need to be used throughout our project (example being CAN ids). For those values, we put them in a dedicated Constants class. Since we only need one copy of each, want to access it from everywhere, and don't want to change their values, we'll make them <code>public static final</code> fields.</p>
-<p>This can get to be quite long and a bit of an eyesore, so we take advantage of another java feature, and just make them fields within an <code>interface</code> instead of a class, which makes them automatically public, static, and final.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Subfolders">Subfolders<a class="anchor-link" href="#Subfolders">&#182;</a></h3><p>besides the main 3 (4) classes, we want to group all our other classes into meaningful folders (and by extension packages).</p>
-<p>Two of these groupings are the <code>subsystems</code> and <code>commands</code> folders, but we also have in our project a <code>utils</code>, or utilities folder containing miscellaneous things that are useful, like our class for managing controllers, and the UserDigital/UserAnalog interfaces</p>
+<h3 id="The-in-depth-description">The in-depth description<a class="anchor-link" href="#The-in-depth-description">&#182;</a></h3><p><a href="https://docs.wpilib.org/en/stable/docs/software/commandbased/structuring-command-based-project.html">https://docs.wpilib.org/en/stable/docs/software/commandbased/structuring-command-based-project.html</a></p>
+<h3 id="Documentation">Documentation<a class="anchor-link" href="#Documentation">&#182;</a></h3><ul>
+<li><a href="https://first.wpi.edu/wpilib/allwpilib/docs/release/java/index.html">https://first.wpi.edu/wpilib/allwpilib/docs/release/java/index.html</a></li>
+<li><a href="https://api.ctr-electronics.com/phoenix/release/java/index.html">https://api.ctr-electronics.com/phoenix/release/java/index.html</a></li>
+<li><a href="https://codedocs.revrobotics.com/java/com/revrobotics/package-summary.html">https://codedocs.revrobotics.com/java/com/revrobotics/package-summary.html</a></li>
+</ul>
 
 </div>
 </div>
