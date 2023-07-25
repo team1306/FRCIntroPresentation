@@ -13089,7 +13089,10 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Command-Based-Programming">Command Based Programming<a class="anchor-link" href="#Command-Based-Programming">&#182;</a></h1><p>The previous</p>
+<h1 id="Command-Based-Programming">Command Based Programming<a class="anchor-link" href="#Command-Based-Programming">&#182;</a></h1><p>We've seen the simpler building blocks of command based programming in the previous document--how we can get inputs and group devices into subsystems--as well as how projects are generally organized.</p>
+<p>Now we'll take a close look at the thing that gives <code>Command-Based Programming</code> its name: Commands, as well as some of the features which tie very closely into the command based framework, and BooleanEvents/Triggers. This section will begin, however, with a concept with many names, such as <code>lambdas</code>, <code>closures</code>, <code>anonymous-functions</code>. They present an alternative method for the representation of actions in our projects and are crucial towards the new kind of command-based programming that is being pushed by the designers of WPILib.</p>
+<p>As such, it will be worthwhile to look at them in great (albeit tangentially related) detail, and to really understand their functionality.</p>
+<p>As you go through this first section, it is recommended to give everything here a try yourself in JShell. Try replicating the results from the codeblocks and see what results, play around with creating and applying them and see if their behavior matches your expections. If not, try and figure out why, and don't hesistate to ask if something is especially confusing. Lambdas, and their related features are famously a source of confusions for many java programmers.</p>
 
 </div>
 </div>
@@ -13097,14 +13100,497 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Lambdas">Lambdas<a class="anchor-link" href="#Lambdas">&#182;</a></h2>
+<h2 id="Functions-(a-continuation)">Functions (a continuation)<a class="anchor-link" href="#Functions-(a-continuation)">&#182;</a></h2><p>In the first two documents, we covered 'functions' in the form of:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">square</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">){</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>before revealing that in fact, these are just <code>method</code>s in disguise.</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Functional-Interfaces-and-Anonymous-Functions">Functional Interfaces and Anonymous Functions<a class="anchor-link" href="#Functional-Interfaces-and-Anonymous-Functions">&#182;</a></h3>
+<h3 id="The-Shortfalls-of-Methods">The Shortfalls of Methods<a class="anchor-link" href="#The-Shortfalls-of-Methods">&#182;</a></h3><p>At a glance, this distinction seems to have little to no consequence -- so what if our functions are methods of classes instead of actual function values? What difference would that make?</p>
+<p>The issue with just using methods is that methods can't be passed as values, like an integer or String. This presents a problem whenever we want to have the ability to perform any valid but arbitrary action, instead of some predetermined action.</p>
+<p>That is, lets say we have an array, and we want to map some operation over all of its values. Instead of using some particular method like <code>square</code>:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="nf">map</span><span class="p">(</span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">xs</span><span class="p">){</span>
+<span class="w">    </span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">newArr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[</span><span class="n">xs</span><span class="p">.</span><span class="na">length</span><span class="o">]</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// appender (i++) or (++i) is a shorter and more popular alternative to the previous (i += 1)</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">xs</span><span class="p">.</span><span class="na">length</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">){</span><span class="w"> </span>
+<span class="w">        </span><span class="n">newArr</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">square</span><span class="p">(</span><span class="n">xs</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">newArr</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">Arrays</span><span class="p">.</span><span class="na">toString</span><span class="p">(</span><span class="n">map</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[]</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">})));</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[1, 4, 9, 16]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>we want some way to use any valid function that takes an integer, and returns another integer:</p>
+<div class="highlight"><pre><span></span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="nf">map</span><span class="p">(</span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">xs</span><span class="p">,</span><span class="w"> </span><span class="o">???</span><span class="w"> </span><span class="n">f</span><span class="p">){</span><span class="w"> </span><span class="c1">// what could this type be??</span>
+<span class="w">    </span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">newArr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[</span><span class="n">xs</span><span class="p">.</span><span class="na">length</span><span class="o">]</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">xs</span><span class="p">.</span><span class="na">length</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">){</span><span class="w"> </span>
+<span class="w">        </span><span class="n">newArr</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">xs</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">newArr</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As it stands, there is no way to directly pass a method, even a valid one, in such a manner. So instead, we must compromise and pass an object of some sort that can represent a function.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Functional-Interfaces">Functional Interfaces<a class="anchor-link" href="#Functional-Interfaces">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>But what shape would such a object take? And how does that 'representation' of a function work?</p>
+<p>Such a function would have to behave analogously to a method when it comes to its usage, being able to be applied in much the same way a method would be called. Beyond that however, it doesn't need anything else -- neither any fields or other methods.</p>
+<p>In this case, we can simply represent any particular function as a class with only one method:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="kd">class</span> <span class="nc">square</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">new</span><span class="w"> </span><span class="n">square</span><span class="p">().</span><span class="na">apply</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[3]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>25</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>But that only works for particular functions, where we know in advance the implementation. What if we wanted to create something that encompasses all possible functions of a certain signature, like functions similar to <code>square</code> which only take one integer as input and give an integer as its output?</p>
+<p>For that, we can't know how our objects' single method might be implemented, since each function could have very distinct implementations. As such, we can represent such functions as an interface with one unimplemented method:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="kd">interface</span> <span class="nc">MyFunction</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="nf">map</span><span class="p">(</span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">xs</span><span class="p">,</span><span class="w"> </span><span class="n">MyFunction</span><span class="w"> </span><span class="n">f</span><span class="p">){</span>
+<span class="w">    </span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">newArr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[</span><span class="n">xs</span><span class="p">.</span><span class="na">length</span><span class="o">]</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">xs</span><span class="p">.</span><span class="na">length</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">){</span><span class="w"> </span>
+<span class="w">        </span><span class="c1">// calling our &#39;function&#39;</span>
+<span class="w">        </span><span class="n">newArr</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="na">apply</span><span class="p">(</span><span class="n">xs</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">newArr</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>then to create an instance of our function, we would implement this interface and provide an implementation for this method:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="kd">class</span> <span class="nc">cube</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">MyFunction</span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Arrays</span><span class="p">.</span><span class="na">toString</span><span class="p">(</span>
+<span class="w">        </span><span class="n">map</span><span class="p">(</span>
+<span class="w">            </span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[]</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">},</span>
+<span class="w">            </span><span class="k">new</span><span class="w"> </span><span class="n">cube</span><span class="p">()</span><span class="w"> </span><span class="c1">// passing an object that represents our function</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[1, 8, 27, 64]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>MyFunction</code> interface is an example of what is known as a <code>SAM (Single Abstract Method) type</code>, or a <code>Functional Interface</code>, since the interface only contains a single abstract method, a fact which will become very important in the next section. It could have any number of static, private, or default methods -- but so long as it only has one abstract method, it is a valid functional interface.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="kd">interface</span> <span class="nc">NonFunctional</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// 2 abstract methods</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="nf">foo</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">x</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">bar</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">interface</span> <span class="nc">Functional</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="nf">foo</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">x</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Anonymous-Functions---The-Lambda">Anonymous Functions - The Lambda<a class="anchor-link" href="#Anonymous-Functions---The-Lambda">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>One thing you might've noticed about this pattern of</p>
+<ul>
+<li>creating an interface which represents a type of function</li>
+<li>creating a class that implements the interface to implement a particular function</li>
+<li>creating an instance of the class get a function value.</li>
+</ul>
+<p>is that it's particularly repetitive to do on it own. Luckily, there are existing constructs in place that help ease that process a bit. For the interface creation, we'll see some existing examples in the java standard library later on. However for the latter steps of creating a class/instance, java provides a core language feature called the <code>lambda expression</code>.</p>
+<h4 id="Lambdas">Lambdas<a class="anchor-link" href="#Lambdas">&#182;</a></h4><p>Lambda expressions, whose name comes from the related <a href="https://en.wikipedia.org/wiki/Lambda_calculus">lambda calculus</a>(though knowledge of it won't be necessary here), are a syntactical feature allowing for easier construction of these function values. They are structured <a href="https://docs.oracle.com/javase/specs/jls/se20/html/jls-15.html#jls-15.27">as follows</a>:</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="n">parameter_list</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">lambda_body</span>
+
+<span class="c1">// e.g.</span>
+<span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+<p>where a parameter list containing all the parameters of the function is followed by an arrow pointing towards the body of the lambda.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The structure of a lambda expression mirrors that of a method definition. The format for the parameter list of both are identical, and the lambda_body is analogous to the method body. The only difference being that if the lambda_body is just one expression, an explicit <code>return</code> isn't necessary.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Existing-Examples">Existing Examples<a class="anchor-link" href="#Existing-Examples">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>An example already present in java would be the <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Comparator.html"><code>Comparator&lt;T&gt;</code></a> interface, whose body contains one abstract method (amid a medley of static methods):</p>
+<div class="highlight"><pre><span></span><span class="c1">// &lt; 0 =&gt; o1 &lt; o2 </span>
+<span class="c1">// = 0 =&gt; o1 = o2</span>
+<span class="c1">// &gt; 0 =&gt; o1 &gt; o2</span>
+<span class="kd">interface</span> <span class="nc">Comparator</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">compare</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">o1</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="n">o2</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>which can then be implemented with the following lambda functions:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="c1">// standard order comparator for numbers</span>
+<span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">cmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">j</span><span class="p">;</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">cmp</span><span class="p">.</span><span class="na">compare</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+<span class="c1">// reverse order comparator for strings</span>
+<span class="n">Comparator</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">cmp2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="n">s2</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">s2</span><span class="p">.</span><span class="na">compareTo</span><span class="p">(</span><span class="n">s1</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">cmp2</span><span class="p">.</span><span class="na">compare</span><span class="p">(</span><span class="s">&quot;book&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;barn&quot;</span><span class="p">));</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1
+-14
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>we could then use our comparators (or existing comparators) with java's library to do things like sort a list</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">xs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="n">xs</span><span class="p">.</span><span class="na">addAll</span><span class="p">(</span><span class="n">List</span><span class="p">.</span><span class="na">of</span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;book&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;barn&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;apple&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;banana&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;orange&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;pear&quot;</span>
+<span class="p">));</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">xs</span><span class="p">);</span>
+<span class="n">xs</span><span class="p">.</span><span class="na">sort</span><span class="p">(</span><span class="n">cmp2</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;now in reverse order:&quot;</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">xs</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[book, barn, apple, banana, orange, pear]
+now in reverse order:
+[pear, orange, book, barn, banana, apple]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Custom-Examples">Custom Examples<a class="anchor-link" href="#Custom-Examples">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>we could do the same with our <code>MyFunction</code> interface from above, and define <code>Cube</code> using a short lambda expression instead of a whole class definition, like so:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="n">MyFunction</span><span class="w"> </span><span class="n">cube</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
+<span class="c1">// reusing our map function</span>
+<span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[]</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">},</span><span class="w"> </span><span class="n">cube</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Arrays</span><span class="p">.</span><span class="na">toString</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[1, 8, 27, 64]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>which looks quite a bit cleaner than our definition before.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="UserAnalog-and-UserDigital">UserAnalog and UserDigital<a class="anchor-link" href="#UserAnalog-and-UserDigital">&#182;</a></h4><p>looking at our previous document, we can see another example of lambdas in use: that being our <code>UserAnalog</code> and<code>UserDigital</code> interfaces.</p>
+<p>Looking at their definition</p>
+
 </div>
 </div>
 </div>
@@ -13114,6 +13600,124 @@ div#notebook {
 <h3 id="Method-References">Method References<a class="anchor-link" href="#Method-References">&#182;</a></h3>
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Beyond lambda expressions, java also provides a contract that allows the creation of references to existing methods. For instance, instead of capitalizing an array of strings using our previous <code>map</code> function by providing the lambda expression <code>(int i) -&gt; Math.abs(i)</code>, we can create a static method reference for <code>Math.abs</code> by using two colons:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[]</span><span class="p">{</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">},</span><span class="w"> </span><span class="n">Math</span><span class="p">::</span><span class="n">abs</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Arrays</span><span class="p">.</span><span class="na">toString</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[2, 1, 0, 1, 2]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="An-Application:-BooleanEvents-(below:-WIP)">An Application: BooleanEvents (below: WIP)<a class="anchor-link" href="#An-Application:-BooleanEvents-(below:-WIP)">&#182;</a></h2><p>one way we can use lambdas is to listen for certain events that we then connect with actions. For instance, earlier we introduced a more primitive method of directly polling with our Controller methods and our <code>UserDigital</code> and <code>UserAnalog</code> interfaces.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Limits-of-Polling-Boolean-Inputs">Limits of Polling Boolean Inputs<a class="anchor-link" href="#Limits-of-Polling-Boolean-Inputs">&#182;</a></h3><p>While the aforementioned method works well for analog inputs and button-<em>holding</em>. It's rather ineffective at listening for button-<em>pressing</em> and <em>releasing</em>, which involve listening multiple times for changes from <code>down -&gt; up</code> or <code>down -&gt; up</code>.</p>
+<p>Furthermore, if we want to bind combinations of button presses to an event (e.g. pressing <code>A</code> and <code>B</code> at the same time to perform a pre-assigned action), the complexity of the checks grows quite quickly.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Eventloop-and-BooleanEvent-Objects">Eventloop and BooleanEvent Objects<a class="anchor-link" href="#Eventloop-and-BooleanEvent-Objects">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>luckily WIPLib supplies us two tools to help with this task. those being the <code>BooleanEvent</code> and <code>EventLoop</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="c1">// ignore below 5 lines, those are just for setting up the environment</span>
+<span class="o">%</span><span class="n">mavenRepo</span><span class="w"> </span><span class="n">wpilib</span><span class="w"> </span><span class="n">https</span><span class="p">:</span><span class="c1">//frcmaven.wpi.edu/artifactory/release</span>
+<span class="o">%</span><span class="n">mavenRepo</span><span class="w"> </span><span class="n">ctre</span><span class="w"> </span><span class="n">https</span><span class="p">:</span><span class="c1">//maven.ctr-electronics.com/release</span>
+<span class="o">%</span><span class="n">maven</span><span class="w"> </span><span class="n">edu</span><span class="p">.</span><span class="na">wpi</span><span class="p">.</span><span class="na">first</span><span class="p">.</span><span class="na">wpilibj</span><span class="p">:</span><span class="n">wpilibj</span><span class="o">-</span><span class="n">java</span><span class="p">:</span><span class="mf">2023.4.3</span>
+<span class="o">%</span><span class="n">maven</span><span class="w"> </span><span class="n">edu</span><span class="p">.</span><span class="na">wpi</span><span class="p">.</span><span class="na">first</span><span class="p">.</span><span class="na">wpiutil</span><span class="p">:</span><span class="n">wpiutil</span><span class="o">-</span><span class="n">java</span><span class="p">:</span><span class="mf">2023.4.3</span>
+<span class="o">%</span><span class="n">maven</span><span class="w"> </span><span class="n">edu</span><span class="p">.</span><span class="na">wpi</span><span class="p">.</span><span class="na">first</span><span class="p">.</span><span class="na">wpilibNewCommands</span><span class="p">:</span><span class="n">wpilibNewCommands</span><span class="o">-</span><span class="n">java</span><span class="p">:</span><span class="mf">2023.4.3</span>
+<span class="c1">// ignore above </span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">edu.wpi.first.wpilibj.event.*</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">edu.wpi.first.wpilibj2.command.*</span><span class="p">;</span>
+<span class="c1">// create boolean event with an event loop</span>
+<span class="kd">var</span><span class="w"> </span><span class="n">loop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">EventLoop</span><span class="p">();</span>
+<span class="kd">var</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BooleanEvent</span><span class="p">(</span><span class="n">loop</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+<span class="c1">// get the current state of that boolean event </span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="na">getAsBoolean</span><span class="p">());</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>true
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
@@ -13182,21 +13786,14 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Events-and-Triggers-:-An-Addendum-to-Inputs">Events and Triggers : An Addendum to Inputs<a class="anchor-link" href="#Events-and-Triggers-:-An-Addendum-to-Inputs">&#182;</a></h2>
+<h2 id="Triggers-:-An-Addendum">Triggers : An Addendum<a class="anchor-link" href="#Triggers-:-An-Addendum">&#182;</a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Limits-of-Polling-Boolean-Inputs">Limits of Polling Boolean Inputs<a class="anchor-link" href="#Limits-of-Polling-Boolean-Inputs">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Eventloop-and-BooleanEven-Objects">Eventloop and BooleanEven Objects<a class="anchor-link" href="#Eventloop-and-BooleanEven-Objects">&#182;</a></h3>
+<h3 id="Issues-with-BooleanEvents">Issues with BooleanEvents<a class="anchor-link" href="#Issues-with-BooleanEvents">&#182;</a></h3>
 </div>
 </div>
 </div>

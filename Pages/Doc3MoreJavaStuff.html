@@ -13258,7 +13258,7 @@ making square
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Super">Super<a class="anchor-link" href="#Super">&#182;</a></h4><p>Looking at our new implementation for our new Square class, you might see that we call something called <code>super</code> instead of implementing a constructor. the 'super' here works much like the <code>this</code> construct in the previous document, although instead of calling constructors in the same class, it calls a constructor in the extended, or <code>parent</code> class.</p>
+<h4 id="Super"><a href="https://www.baeldung.com/java-super">Super</a><a class="anchor-link" href="#Super">&#182;</a></h4><p>Looking at our new implementation for our new Square class, you might see that we call something called <code>super</code> instead of implementing a constructor. the 'super' here works much like the <code>this</code> construct in the previous document, although instead of calling constructors in the same class, it calls a constructor in the extended, or <code>parent</code> class.</p>
 <p>Here, we see that the sole constructor of <code>Rectangle</code> was used, as shown by the <code>making rectangle</code> text from the output above.</p>
 
 </div>
@@ -13267,7 +13267,7 @@ making square
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Inheritance">Inheritance<a class="anchor-link" href="#Inheritance">&#182;</a></h3><p>You may have also noticed that when we extended Rectangle with Square, we also don't make any of the fields or methods. This is because when we created Square to extend Rectangle, it also <code>inherited</code> all of the public fields and methods of Rectangle, like <code>length</code> or <code>area()</code>, allowing our square instance to use these methods.</p>
+<h3 id="Inheritance"><a href="https://www.baeldung.com/java-inheritance">Inheritance</a><a class="anchor-link" href="#Inheritance">&#182;</a></h3><p>You may have also noticed that when we extended Rectangle with Square, we also don't make any of the fields or methods. This is because when we created Square to extend Rectangle, it also <code>inherited</code> all of the public fields and methods of Rectangle, like <code>length</code> or <code>area()</code>, allowing our square instance to use these methods.</p>
 <p>Beyond using these properties and methods outside our class, they can also be used inside methods of our class too (except for private members of the superclass).</p>
 
 </div>
@@ -13329,7 +13329,7 @@ making square
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Overriding-Methods">Overriding Methods<a class="anchor-link" href="#Overriding-Methods">&#182;</a></h4><p>Sometimes, our inherited method doesn't do exactly what we want to, either because it's too broad, or simply ill-fit for the class. For intance, we could have classes that represent an Animal and a Dog:</p>
+<h4 id="Overriding-Methods"><a href="https://www.baeldung.com/java-method-overload-override">Overriding Methods</a><a class="anchor-link" href="#Overriding-Methods">&#182;</a></h4><p>Sometimes, our inherited method doesn't do exactly what we want to, either because it's too broad, or simply ill-fit for the class. For intance, we could have classes that represent an Animal and a Dog:</p>
 
 </div>
 </div>
@@ -13423,7 +13423,7 @@ making square
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="(Subtype)-Polymorphism">(Subtype) Polymorphism<a class="anchor-link" href="#(Subtype)-Polymorphism">&#182;</a></h3><p>That ability to assign it the type of a superclass is also interesting at the point of usage. Since, instead of using the methods of the assigned type, it uses the methods of the underlying value's type.</p>
+<h3 id="(Subtype)-Polymorphism">(<a href="https://www.baeldung.com/java-liskov-substitution-principle">Subtype</a>) Polymorphism<a class="anchor-link" href="#(Subtype)-Polymorphism">&#182;</a></h3><p>That ability to assign it the type of a superclass is also interesting at the point of usage. Since, instead of using the methods of the assigned type, it uses the methods of the underlying value's type.</p>
 <p>Take our Dog and Animal class for example:</p>
 
 </div>
@@ -13477,7 +13477,7 @@ The dog barks.
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Abstract-Classes">Abstract Classes<a class="anchor-link" href="#Abstract-Classes">&#182;</a></h2><p>So far, we've only seen classes where all methods are explicitly implemented in their definition. However, what can we do when we want to describe something more general that doesn't have a singular implementation.</p>
+<h2 id="Abstract-Classes"><a href="https://www.baeldung.com/java-abstract-class">Abstract Classes</a><a class="anchor-link" href="#Abstract-Classes">&#182;</a></h2><p>So far, we've only seen classes where all methods are explicitly implemented in their definition. However, what can we do when we want to describe something more general that doesn't have a singular implementation.</p>
 <p>Looking back at our <code>Square</code> and <code>Rectangle</code> classes, and we can try to generalize further to <code>Shape</code>s. However we quickly see that trying to implement the <code>getArea</code> and <code>getPerimeter</code> methods presents a problem. How are we supposed to calculate the area or perimeter of some shape in general, whether it be a circle, triangle, square, rhombus, or etc? And the answer here seems to be that we can't.</p>
 <p>So instead of racking our heads trying to think of a general implementation, we can leave those methods as unimplemented <code>abstract</code> methods, so they can be implemented when we create subclasses.</p>
 
@@ -13556,7 +13556,7 @@ The dog barks.
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Interfaces">Interfaces<a class="anchor-link" href="#Interfaces">&#182;</a></h2><p>Another useful java concept that we haven't introduced yet are interfaces. An interface is similar to an (abstract) class, but has a few differences, namely in how inheritance, fields, and methods work.</p>
+<h2 id="Interfaces"><a href="https://www.baeldung.com/java-interfaces">Interfaces</a><a class="anchor-link" href="#Interfaces">&#182;</a></h2><p>Another useful java concept that we haven't introduced yet are interfaces. An interface is similar to an (abstract) class, but has a few differences, namely in how inheritance, fields, and methods work.</p>
 
 </div>
 </div>
@@ -13988,7 +13988,7 @@ foo2
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="JavaDoc-Comments">JavaDoc Comments<a class="anchor-link" href="#JavaDoc-Comments">&#182;</a></h2><p>JavaDoc comments, which are block comments surrounded with <code>/** */</code> (instead of the usual <code>/* */</code>) a special kind of comment that gives documentation about that class/method. Though as a comment it makes no difference in code, it can be usedful for describing what a method or class does in detail.</p>
+<h2 id="JavaDoc-Comments"><a href="https://www.baeldung.com/javadoc">JavaDoc</a> Comments<a class="anchor-link" href="#JavaDoc-Comments">&#182;</a></h2><p>JavaDoc comments, which are block comments surrounded with <code>/** */</code> (instead of the usual <code>/* */</code>) a special kind of comment that gives documentation about that class/method. Though as a comment it makes no difference in code, it can be usedful for describing what a method or class does in detail.</p>
 <p>The extensions that we use in VSCode also allow us to hover over a method or class and see a pop-up with it's javadoc description.</p>
 
 </div>
@@ -14024,7 +14024,7 @@ foo2
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Generics-(Parametric-Polymorphism)">Generics (Parametric Polymorphism)<a class="anchor-link" href="#Generics-(Parametric-Polymorphism)">&#182;</a></h2><p>A good introduction to why we need Generics is the problem of trying to give types to containers. Imagine now that we need to create some class that can store any arbitrary pair of elements of possibly different types, like so:</p>
+<h2 id="Generics-(Parametric-Polymorphism)"><a href="https://www.baeldung.com/java-generics">Generics</a> (Parametric Polymorphism)<a class="anchor-link" href="#Generics-(Parametric-Polymorphism)">&#182;</a></h2><p>A good introduction to why we need Generics is the problem of trying to give types to containers. Imagine now that we need to create some class that can store any arbitrary pair of elements of possibly different types, like so:</p>
 <div class="highlight"><pre><span></span><span class="n">Pair</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Pair</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
 <span class="kt">int</span><span class="w"> </span><span class="n">first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="na">getFirst</span><span class="p">();</span><span class="w"> </span><span class="c1">// gets first value, which is an int</span>
 <span class="n">String</span><span class="w"> </span><span class="n">second</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="na">getSecond</span><span class="p">();</span><span class="w"> </span><span class="c1">// gets second value, which is a string</span>
@@ -14194,7 +14194,7 @@ foo2
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Enumerations-(Enums)">Enumerations (Enums)<a class="anchor-link" href="#Enumerations-(Enums)">&#182;</a></h2><p>At its simplest, enumerations are just a group of constants, like for example the cardinal directions (N,S,E,W), the days of the week (M,Tu,W,Th,F,Sa,Su), or types of motors (Brushed, Brushless).</p>
+<h2 id="Enumerations-(Enums)">Enumerations (<a href="https://www.baeldung.com/a-guide-to-java-enums">Enums</a>)<a class="anchor-link" href="#Enumerations-(Enums)">&#182;</a></h2><p>At its simplest, enumerations are just a group of constants, like for example the cardinal directions (N,S,E,W), the days of the week (M,Tu,W,Th,F,Sa,Su), or types of motors (Brushed, Brushless).</p>
 
 </div>
 </div>

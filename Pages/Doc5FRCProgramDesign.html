@@ -13248,22 +13248,30 @@ div#notebook {
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">TalonFX</span><span class="w"> </span><span class="n">motor2</span><span class="p">;</span>
 
 <span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">ExDrivetrain</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">motor1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TalonFX</span><span class="p">(</span><span class="cm">/*motor id*/</span><span class="p">);</span>
+<span class="w">        </span><span class="c1">// 0 and 1 are the IDs of the motor controllers</span>
+<span class="w">        </span><span class="n">motor1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TalonFX</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
 <span class="w">        </span><span class="n">motor1</span><span class="p">.</span><span class="na">configFactoryDefault</span><span class="p">();</span>
 <span class="w">        </span><span class="n">motor1</span><span class="p">.</span><span class="na">setNeutralMode</span><span class="p">(</span><span class="n">NeutralMode</span><span class="p">.</span><span class="na">Brake</span><span class="p">);</span>
 
-<span class="w">        </span><span class="n">motor2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TalonFX</span><span class="p">(</span><span class="cm">/*motor id*/</span><span class="p">);</span>
+<span class="w">        </span><span class="n">motor2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TalonFX</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
 <span class="w">        </span><span class="n">motor2</span><span class="p">.</span><span class="na">configFactoryDefault</span><span class="p">();</span>
 <span class="w">        </span><span class="n">motor2</span><span class="p">.</span><span class="na">setNeutralMode</span><span class="p">(</span><span class="n">NeutralMode</span><span class="p">.</span><span class="na">Brake</span><span class="p">);</span>
 <span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">driveWheels</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">output1</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">output2</span><span class="p">){</span>
 <span class="w">        </span><span class="c1">// tells the motor controllers to run the motors </span>
-<span class="w">        </span><span class="n">motor1</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">output1</span><span class="p">);</span>
-<span class="w">        </span><span class="n">motor2</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">output2</span><span class="p">);</span>
+<span class="w">        </span><span class="n">motor1</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">ControlMode</span><span class="p">.</span><span class="na">PercentOutput</span><span class="p">,</span><span class="w"> </span><span class="n">output1</span><span class="p">);</span>
+<span class="w">        </span><span class="n">motor2</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">ControlMode</span><span class="p">.</span><span class="na">PercentOutput</span><span class="p">,</span><span class="w"> </span><span class="n">output2</span><span class="p">);</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>where the <code>drive</code> method serves as the main point of interaction from the outside with the subsystem, while its constructor initalizes all the necessary objects and sets up everything to be run</p>
 
 </div>
@@ -13435,7 +13443,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Subfolders">Subfolders<a class="anchor-link" href="#Subfolders">&#182;</a></h3><p>besides the main 3 (4) classes, we want to group all our other classes into meaningful folders (and by extension packages).</p>
+<h3 id="Subfolders">Subfolders<a class="anchor-link" href="#Subfolders">&#182;</a></h3><p>besides the main 3 classes, we want to group all our other classes into meaningful folders (and by extension packages).</p>
 <p>Two of these groupings are the <code>subsystems</code> and <code>commands</code> folders, but we also have in our project a <code>utils</code>, or utilities folder containing miscellaneous things that are useful, like our class for managing controllers, and the UserDigital/UserAnalog interfaces</p>
 
 </div>
