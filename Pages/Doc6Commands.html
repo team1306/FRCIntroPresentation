@@ -13090,7 +13090,7 @@ div#notebook {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Command-Based-Programming">Command Based Programming<a class="anchor-link" href="#Command-Based-Programming">&#182;</a></h1><p>We've seen the simpler building blocks of command based programming in the previous document--how we can get inputs and group devices into subsystems--as well as how projects are generally organized.</p>
-<p>Now we'll take a close look at the thing that gives <code>Command-Based Programming</code> its name: Commands, as well as some of the features which tie very closely into the command based framework, and BooleanEvents/Triggers. This section will begin, however, with a concept with many names, such as <code>lambdas</code>, <code>closures</code>, <code>anonymous-functions</code>. They present an alternative method for the representation of actions in our projects and are crucial towards the new kind of command-based programming that is being pushed by the designers of WPILib.</p>
+<p>Now we'll take a close look at the thing that gives <code>Command-Based Programming</code> its name: Commands, as well as some of the features which tie very closely into the command based framework, and BooleanEvents/Triggers. This section will begin, however, with a discussion about a concept with many names, such as <code>lambdas</code>, <code>closures</code>, <code>anonymous-functions</code>. They present an alternative method for the representation of actions in our projects and are crucial towards the new kind of command-based programming that is being pushed by the designers of WPILib.</p>
 <p>As such, it will be worthwhile to look at them in great (albeit tangentially related) detail, and to really understand their functionality.</p>
 <p>As you go through this first section, it is recommended to give everything here a try yourself in JShell. Try replicating the results from the codeblocks and see what results, play around with creating and applying them and see if their behavior matches your expections. If not, try and figure out why, and don't hesistate to ask if something is especially confusing. Lambdas, and their related features are famously a source of confusions for many java programmers.</p>
 
@@ -13181,7 +13181,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>we want some way to use any valid function that takes an integer, and returns another integer:</p>
+<p>But what if we want some way to use any valid function that takes an integer, and returns another integer:</p>
 <div class="highlight"><pre><span></span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="nf">map</span><span class="p">(</span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">xs</span><span class="p">,</span><span class="w"> </span><span class="o">???</span><span class="w"> </span><span class="n">f</span><span class="p">){</span><span class="w"> </span><span class="c1">// what could this type be??</span>
 <span class="w">    </span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">newArr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[</span><span class="n">xs</span><span class="p">.</span><span class="na">length</span><span class="o">]</span><span class="p">;</span>
 <span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">xs</span><span class="p">.</span><span class="na">length</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">){</span><span class="w"> </span>
@@ -13389,9 +13389,8 @@ div#notebook {
 </ul>
 <p>is that it's particularly repetitive to do on it own. Luckily, there are existing constructs in place that help ease that process a bit. For the interface creation, we'll see some existing examples in the java standard library later on. However for the latter steps of creating a class/instance, java provides a core language feature called the <code>lambda expression</code>.</p>
 <h4 id="Lambdas">Lambdas<a class="anchor-link" href="#Lambdas">&#182;</a></h4><p>Lambda expressions, whose name comes from the related <a href="https://en.wikipedia.org/wiki/Lambda_calculus">lambda calculus</a>(though knowledge of it won't be necessary here), are a syntactical feature allowing for easier construction of these function values. They are structured <a href="https://docs.oracle.com/javase/specs/jls/se20/html/jls-15.html#jls-15.27">as follows</a>:</p>
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="n">parameter_list</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">lambda_body</span>
-
-<span class="c1">// e.g.</span>
+<p><code>(parameter_list) -&gt; lambda_body</code></p>
+<div class="highlight"><pre><span></span><span class="c1">// e.g.</span>
 <span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
 <span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>
@@ -13422,9 +13421,11 @@ div#notebook {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>An example already present in java would be the <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Comparator.html"><code>Comparator&lt;T&gt;</code></a> interface, whose body contains one abstract method (amid a medley of static methods):</p>
-<div class="highlight"><pre><span></span><span class="c1">// &lt; 0 =&gt; o1 &lt; o2 </span>
-<span class="c1">// = 0 =&gt; o1 = o2</span>
-<span class="c1">// &gt; 0 =&gt; o1 &gt; o2</span>
+<div class="highlight"><pre><span></span><span class="c1">// intended behavior for compare:</span>
+<span class="c1">// if compare(o1, o2) is:</span>
+<span class="c1">//     &lt; 0 then o1 &lt; o2 </span>
+<span class="c1">//     = 0 then o1 = o2</span>
+<span class="c1">//     &gt; 0 then o1 &gt; o2</span>
 <span class="kd">interface</span> <span class="nc">Comparator</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">{</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">compare</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">o1</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="n">o2</span><span class="p">);</span>
 <span class="p">}</span>
@@ -13589,10 +13590,57 @@ now in reverse order:
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="UserAnalog-and-UserDigital">UserAnalog and UserDigital<a class="anchor-link" href="#UserAnalog-and-UserDigital">&#182;</a></h4><p>looking at our previous document, we can see another example of lambdas in use: that being our <code>UserAnalog</code> and<code>UserDigital</code> interfaces.</p>
-<p>Looking at their definition</p>
+<p>Looking at their definition, they have the structure as a functional interface, with a singular abstract instance method (and some static helper methods). As such, we can use lambdas to create instances of them, and use them in our code:</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="c1">// for analog inputs (e.g. joysticks or triggers)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">UserAnalog</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ... helper method(s)</span>
+<span class="w">    </span><span class="c1">// the singular abstract (instance) method</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">get</span><span class="p">();</span><span class="w"> </span>
+<span class="p">}</span>
+<span class="c1">// for digital inputs (e.g. buttons)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">UserDigital</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ... helper method(s)</span>
+<span class="w">    </span><span class="c1">// the singular abstract (instance) method</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">get</span><span class="p">();</span><span class="w"> </span><span class="c1">// note this returns a boolean instead of a double </span>
+<span class="p">}</span>
+<span class="n">UserAnalog</span><span class="w"> </span><span class="n">ua</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mf">3.14</span><span class="p">;</span>
+<span class="n">UserDigital</span><span class="w"> </span><span class="n">ud</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">ua</span><span class="p">.</span><span class="na">get</span><span class="p">());</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">ud</span><span class="p">.</span><span class="na">get</span><span class="p">());</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>3.14
+true
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
@@ -13611,7 +13659,7 @@ now in reverse order:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-java"><pre><span></span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[]</span><span class="p">{</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">},</span><span class="w"> </span><span class="n">Math</span><span class="p">::</span><span class="n">abs</span><span class="p">);</span>
@@ -13646,54 +13694,30 @@ now in reverse order:
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="An-Application:-BooleanEvents-(below:-WIP)">An Application: BooleanEvents (below: WIP)<a class="anchor-link" href="#An-Application:-BooleanEvents-(below:-WIP)">&#182;</a></h2><p>one way we can use lambdas is to listen for certain events that we then connect with actions. For instance, earlier we introduced a more primitive method of directly polling with our Controller methods and our <code>UserDigital</code> and <code>UserAnalog</code> interfaces.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Limits-of-Polling-Boolean-Inputs">Limits of Polling Boolean Inputs<a class="anchor-link" href="#Limits-of-Polling-Boolean-Inputs">&#182;</a></h3><p>While the aforementioned method works well for analog inputs and button-<em>holding</em>. It's rather ineffective at listening for button-<em>pressing</em> and <em>releasing</em>, which involve listening multiple times for changes from <code>down -&gt; up</code> or <code>down -&gt; up</code>.</p>
-<p>Furthermore, if we want to bind combinations of button presses to an event (e.g. pressing <code>A</code> and <code>B</code> at the same time to perform a pre-assigned action), the complexity of the checks grows quite quickly.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Eventloop-and-BooleanEvent-Objects">Eventloop and BooleanEvent Objects<a class="anchor-link" href="#Eventloop-and-BooleanEvent-Objects">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>luckily WIPLib supplies us two tools to help with this task. those being the <code>BooleanEvent</code> and <code>EventLoop</code>.</p>
+<p>method references can also be used to create references to instance methods, by using the instance name instead of the class name:</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-java"><pre><span></span><span class="c1">// ignore below 5 lines, those are just for setting up the environment</span>
-<span class="o">%</span><span class="n">mavenRepo</span><span class="w"> </span><span class="n">wpilib</span><span class="w"> </span><span class="n">https</span><span class="p">:</span><span class="c1">//frcmaven.wpi.edu/artifactory/release</span>
-<span class="o">%</span><span class="n">mavenRepo</span><span class="w"> </span><span class="n">ctre</span><span class="w"> </span><span class="n">https</span><span class="p">:</span><span class="c1">//maven.ctr-electronics.com/release</span>
-<span class="o">%</span><span class="n">maven</span><span class="w"> </span><span class="n">edu</span><span class="p">.</span><span class="na">wpi</span><span class="p">.</span><span class="na">first</span><span class="p">.</span><span class="na">wpilibj</span><span class="p">:</span><span class="n">wpilibj</span><span class="o">-</span><span class="n">java</span><span class="p">:</span><span class="mf">2023.4.3</span>
-<span class="o">%</span><span class="n">maven</span><span class="w"> </span><span class="n">edu</span><span class="p">.</span><span class="na">wpi</span><span class="p">.</span><span class="na">first</span><span class="p">.</span><span class="na">wpiutil</span><span class="p">:</span><span class="n">wpiutil</span><span class="o">-</span><span class="n">java</span><span class="p">:</span><span class="mf">2023.4.3</span>
-<span class="o">%</span><span class="n">maven</span><span class="w"> </span><span class="n">edu</span><span class="p">.</span><span class="na">wpi</span><span class="p">.</span><span class="na">first</span><span class="p">.</span><span class="na">wpilibNewCommands</span><span class="p">:</span><span class="n">wpilibNewCommands</span><span class="o">-</span><span class="n">java</span><span class="p">:</span><span class="mf">2023.4.3</span>
-<span class="c1">// ignore above </span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">edu.wpi.first.wpilibj.event.*</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">edu.wpi.first.wpilibj2.command.*</span><span class="p">;</span>
-<span class="c1">// create boolean event with an event loop</span>
-<span class="kd">var</span><span class="w"> </span><span class="n">loop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">EventLoop</span><span class="p">();</span>
-<span class="kd">var</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BooleanEvent</span><span class="p">(</span><span class="n">loop</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
-<span class="c1">// get the current state of that boolean event </span>
-<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="na">getAsBoolean</span><span class="p">());</span>
+<div class=" highlight hl-java"><pre><span></span><span class="kd">class</span> <span class="nc">Num</span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Num</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">){</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="p">){</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">var</span><span class="w"> </span><span class="n">five</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Num</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+<span class="kt">int</span><span class="w"> </span><span class="o">[]</span><span class="w"> </span><span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[]</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">},</span><span class="w"> </span><span class="n">five</span><span class="p">::</span><span class="n">add</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Arrays</span><span class="p">.</span><span class="na">toString</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+<span class="p">);</span>
 </pre></div>
 
     </div>
@@ -13710,7 +13734,7 @@ now in reverse order:
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>true
+<pre>[6, 7, 8, 9]
 </pre>
 </div>
 </div>
@@ -13722,14 +13746,7 @@ now in reverse order:
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Why-Does-it-Matter:-The-Issue-with-Just-Having-Subsystems">Why Does it Matter: The Issue with Just Having Subsystems<a class="anchor-link" href="#Why-Does-it-Matter:-The-Issue-with-Just-Having-Subsystems">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Having <em>just</em> <code>Subsystem</code> as an abstraction still falls short in a big way:</p>
+<h2 id="An-Application:-BooleanEvents">An Application: BooleanEvents<a class="anchor-link" href="#An-Application:-BooleanEvents">&#182;</a></h2><p>one way we can use lambdas is to listen for certain events that we then connect with actions. For instance, earlier we introduced a more primitive method of directly polling with our Controller methods and our <code>UserDigital</code> and <code>UserAnalog</code> interfaces.</p>
 
 </div>
 </div>
@@ -13737,84 +13754,174 @@ now in reverse order:
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Commands">Commands<a class="anchor-link" href="#Commands">&#182;</a></h2>
+<h3 id="Limits-of-Polling-Boolean-Inputs">Limits of Polling Boolean Inputs<a class="anchor-link" href="#Limits-of-Polling-Boolean-Inputs">&#182;</a></h3><p>While the aforementioned method works well for analog inputs and button-<em>holding</em>. It's rather ineffective at listening for button-<em>pressing</em> and <em>releasing</em>, which involve listening multiple times for changes from <code>down -&gt; up</code> or <code>down -&gt; up</code>.</p>
+<p>Furthermore, if we want to bind combinations of button presses to an event (e.g. pressing <code>A</code> and <code>B</code> at the same time to perform a pre-assigned action), the complexity of the checks grows quite quickly.</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="A-Basic-Structure-/-The-Manual-Way">A Basic Structure / The Manual Way<a class="anchor-link" href="#A-Basic-Structure-/-The-Manual-Way">&#182;</a></h3>
+<h3 id="EventLoop-and-BooleanEvent-Objects"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj/event/EventLoop.html">EventLoop</a> and <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj/event/BooleanEvent.html">BooleanEvent</a> Objects<a class="anchor-link" href="#EventLoop-and-BooleanEvent-Objects">&#182;</a></h3>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="A-Command's-Constituent-Components">A Command's Constituent Components<a class="anchor-link" href="#A-Command's-Constituent-Components">&#182;</a></h4>
+<p>luckily WIPLib supplies us two tools to help with this task. those being the <code>BooleanEvent</code> and <code>EventLoop</code>.</p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="CommandBase-and-A-Worked-Example">CommandBase and A Worked Example<a class="anchor-link" href="#CommandBase-and-A-Worked-Example">&#182;</a></h4>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="c1">// 6 lines below are just for setting up the environment in this particular document</span>
+<span class="c1">// note that this written with 2023 version, so should be updated accordingly in future years if used</span>
+<span class="o">%</span><span class="n">mavenRepo</span><span class="w"> </span><span class="n">wpilib</span><span class="w"> </span><span class="n">https</span><span class="p">:</span><span class="c1">//frcmaven.wpi.edu/artifactory/release</span>
+<span class="o">%</span><span class="n">mavenRepo</span><span class="w"> </span><span class="n">ctre</span><span class="w"> </span><span class="n">https</span><span class="p">:</span><span class="c1">//maven.ctr-electronics.com/release</span>
+<span class="o">%</span><span class="n">maven</span><span class="w"> </span><span class="n">edu</span><span class="p">.</span><span class="na">wpi</span><span class="p">.</span><span class="na">first</span><span class="p">.</span><span class="na">wpilibj</span><span class="p">:</span><span class="n">wpilibj</span><span class="o">-</span><span class="n">java</span><span class="p">:</span><span class="mf">2023.4.3</span>
+<span class="o">%</span><span class="n">maven</span><span class="w"> </span><span class="n">edu</span><span class="p">.</span><span class="na">wpi</span><span class="p">.</span><span class="na">first</span><span class="p">.</span><span class="na">wpiutil</span><span class="p">:</span><span class="n">wpiutil</span><span class="o">-</span><span class="n">java</span><span class="p">:</span><span class="mf">2023.4.3</span>
+<span class="o">%</span><span class="n">maven</span><span class="w"> </span><span class="n">edu</span><span class="p">.</span><span class="na">wpi</span><span class="p">.</span><span class="na">first</span><span class="p">.</span><span class="na">wpimath</span><span class="p">:</span><span class="n">wpimath</span><span class="o">-</span><span class="n">java</span><span class="p">:</span><span class="mf">2023.4.3</span>
+<span class="o">%</span><span class="n">maven</span><span class="w"> </span><span class="n">edu</span><span class="p">.</span><span class="na">wpi</span><span class="p">.</span><span class="na">first</span><span class="p">.</span><span class="na">wpilibNewCommands</span><span class="p">:</span><span class="n">wpilibNewCommands</span><span class="o">-</span><span class="n">java</span><span class="p">:</span><span class="mf">2023.4.3</span>
+<span class="c1">// necessary imports</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">edu.wpi.first.wpilibj.event.EventLoop</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">edu.wpi.first.wpilibj.event.BooleanEvent</span><span class="p">;</span>
+<span class="c1">// create boolean event with an event loop</span>
+<span class="kd">var</span><span class="w"> </span><span class="n">loop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">EventLoop</span><span class="p">();</span>
+<span class="kd">var</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BooleanEvent</span><span class="p">(</span><span class="n">loop</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+<span class="c1">// a demonstration of a more dynamic event</span>
+<span class="kd">var</span><span class="w"> </span><span class="n">flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="kd">var</span><span class="w"> </span><span class="n">event2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BooleanEvent</span><span class="p">(</span><span class="n">loop</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">flag</span><span class="p">);</span>
+</pre></div>
+
+    </div>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="A-Better,-Functional-Way">A Better, Functional Way<a class="anchor-link" href="#A-Better,-Functional-Way">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Command-Factories">Command Factories<a class="anchor-link" href="#Command-Factories">&#182;</a></h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Some-Selected-Examples">Some Selected Examples<a class="anchor-link" href="#Some-Selected-Examples">&#182;</a></h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Triggers-:-An-Addendum">Triggers : An Addendum<a class="anchor-link" href="#Triggers-:-An-Addendum">&#182;</a></h2>
-</div>
-</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Issues-with-BooleanEvents">Issues with BooleanEvents<a class="anchor-link" href="#Issues-with-BooleanEvents">&#182;</a></h3>
+<p>where the EventLoop <code>loop</code> acts as the core manager or coordinator of all the boolean events (<code>event</code> and <code>event2</code>) that we created, and the event itself is an association between that loop and a function (or predicate) that checks whether some condition it fulfilled. This very general description allows it to be used in an assortment of relevant cases, from the aforementioned button presses, to checking if a sensor has reached a certain value, or a combination of both (say pressing a button while a motor has spun up to a desired speed and the robot is oriented to a certain angle).</p>
+<p>Outside of just associating an event with its condition, the event also allows us to specify what action should be taken when the condition is fulfilled. This is done by passing in another function which does not take or return any values.</p>
+
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="c1">// bind certain actions to the events when their condition is met</span>
+<span class="n">event</span><span class="p">.</span><span class="na">ifHigh</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;alwaying running&quot;</span><span class="p">));</span>
+<span class="n">event2</span><span class="p">.</span><span class="na">ifHigh</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;flag on&quot;</span><span class="p">));</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Trigger-Objects">Trigger Objects<a class="anchor-link" href="#Trigger-Objects">&#182;</a></h3>
+<p>Futhermore, the BooleanEvent class also gives us the tools to construct more complex events from existing ones. Especially important is the ability to listen for <em>changes</em> in the condition, instead of just to the condition itself, which can be achieved with the <code>rising</code> and <code>falling</code> methods, which construct a new event that only fires when the condition changes from <code>false -&gt; true</code> or <code>true -&gt; false</code> respectively.</p>
+
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="c1">// we can also string events together to create more complex events</span>
+<span class="kd">var</span><span class="w"> </span><span class="n">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event2</span><span class="p">.</span><span class="na">rising</span><span class="p">();</span>
+<span class="kd">var</span><span class="w"> </span><span class="n">disabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event2</span><span class="p">.</span><span class="na">falling</span><span class="p">();</span>
+
+<span class="n">enabled</span><span class="p">.</span><span class="na">ifHigh</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;flag enabled&quot;</span><span class="p">));</span>
+<span class="n">disabled</span><span class="p">.</span><span class="na">ifHigh</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;flag disabled&quot;</span><span class="p">));</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>*<strong>We still have to manually check each input case and map that to some chain of actions!!</strong>*</p>
-<div class="highlight"><pre><span></span><span class="nd">@Override</span>
-<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">robotPeriodic</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="cm">/* input case 1*/</span><span class="p">){</span>
-<span class="w">        </span><span class="c1">// do something w/ some subsystems</span>
-<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="cm">/* input case 2 */</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="c1">// do something else w/ other subsystems</span>
-<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="p">...</span>
+<p>To then query the status of all of the events (or <code>poll</code> them), we'd call the EventLoop's <code>poll</code> method, which checks the conditions for all associated events and if they are true, executes the associated action.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="c1">// poll to invoke actions</span>
+<span class="n">loop</span><span class="p">.</span><span class="na">poll</span><span class="p">();</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;-&quot;</span><span class="p">.</span><span class="na">repeat</span><span class="p">(</span><span class="mi">16</span><span class="p">));</span>
+<span class="c1">// set flag and try again</span>
+<span class="n">flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="n">loop</span><span class="p">.</span><span class="na">poll</span><span class="p">();</span><span class="w"> </span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;-&quot;</span><span class="p">.</span><span class="na">repeat</span><span class="p">(</span><span class="mi">16</span><span class="p">));</span>
+<span class="c1">// ... and again</span>
+<span class="n">flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="n">loop</span><span class="p">.</span><span class="na">poll</span><span class="p">();</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;-&quot;</span><span class="p">.</span><span class="na">repeat</span><span class="p">(</span><span class="mi">16</span><span class="p">));</span>
+<span class="c1">// ... and once more</span>
+<span class="n">loop</span><span class="p">.</span><span class="na">poll</span><span class="p">();</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>alwaying running
+----------------
+alwaying running
+flag on
+flag enabled
+----------------
+alwaying running
+flag disabled
+----------------
+alwaying running
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In practice, this would most likely be called in one of the <code>periodic</code> methods of our Robot class in order to avoid missing any event activations.</p>
+<div class="highlight"><pre><span></span><span class="nd">@Override</span><span class="w"> </span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">teleopPeriodic</span><span class="p">(){</span>
+<span class="w">    </span><span class="c1">// other code...</span>
+<span class="w">    </span><span class="n">loop</span><span class="p">.</span><span class="na">poll</span><span class="p">();</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -13824,7 +13931,10 @@ now in reverse order:
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We see that with enough cases and complexity, this pattern becomes unsustainable</p>
+<p>Events can also be constructed using logical operations (and, or, not) on existing events, which allows us to create more complex events from simpler ones. For instance, if we had event <code>a</code> for button <code>A</code> being held, and event <code>b</code> for button <code>B</code> being held, we could create an event <code>c</code> for when only one of is <code>A</code> and <code>B</code> being pressed with the following snippet:</p>
+<div class="highlight"><pre><span></span><span class="c1">// a &amp;&amp; !b || !a &amp;&amp; b (aka a xor b but alas no xor method)</span>
+<span class="kd">var</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="na">and</span><span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="na">negate</span><span class="p">()).</span><span class="na">or</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="na">negate</span><span class="p">().</span><span class="na">and</span><span class="p">(</span><span class="n">b</span><span class="p">));</span>
+</pre></div>
 
 </div>
 </div>
@@ -13832,7 +13942,12 @@ now in reverse order:
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>(note)We also have to manually deal with conflicts in our design; for example if we accidently had 2 input cases that needed to use the same subsystem at the same time.... things would break</p>
+<blockquote>
+<p>Note: in practice, many events that are prone to rapid changes (such as button presses) should be filtered with the <code>debounce</code> method, which prevents the event from unwantingly firing multiple times in a short period and repeatedly triggering the associated action.</p>
+</blockquote>
+<blockquote>
+<p>Note2: chaining the rising and falling for the same event in order to listen for changes in the condition might not work as expected, at least not in the demonstration environment, perhaps due to their measurement changing the internal state of the event. As such, consider attaching the same action for the seperate rising and falling events. For any maintainer reading this, check if adding a debounce rectified this issue.</p>
+</blockquote>
 
 </div>
 </div>
@@ -13841,10 +13956,9 @@ now in reverse order:
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Commands">Commands<a class="anchor-link" href="#Commands">&#182;</a></h2><blockquote>
-<p>Commands are simple state machines that perform high-level robot functions using the methods defined by subsystems. Commands can be either idle, in which they do nothing, or scheduled, in which the scheduler will execute a specific set of the command’s code depending on the state of the command. The CommandScheduler recognizes scheduled commands as being in one of three states: initializing, executing, or ending. Commands specify what is done in each of these states through the initialize(), execute() and end() methods.</p>
-<p>- WPIlib documentation</p>
+<p>represent actions the robot can take. Commands run when scheduled, until they are interrupted or their end condition is met. Commands are very recursively composable: commands can be composed to accomplish more-complicated tasks</p>
 </blockquote>
-<p>Commands are an abstraction over actions/ responsibilities that can be performed at any given time.</p>
+<p>Commands form the second important abstraction in the command based paradigm and are the backbone for implementing more complex robot behaviors. Whereas subsystems are simple groupings of individual hardware devices that work together as one unit, Commands allow for the modeling of more sophisticated, high level actions more akin to how we might describe them in natural language.</p>
 
 </div>
 </div>
@@ -13852,75 +13966,96 @@ now in reverse order:
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Creating-a-Command">Creating a Command<a class="anchor-link" href="#Creating-a-Command">&#182;</a></h3><p>To create a command, extend the <code>CommandBase</code> class, and override a few important methods, those being <code>initialize</code>, <code>execute</code>, <code>end</code>, and <code>isFinished</code></p>
-<div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">edu.wpi.first.wpilibj2.command.CommandBase</span><span class="p">;</span>
+<h3 id="A-Basic-Structure-/-The-Manual-Way">A Basic Structure / The Manual Way<a class="anchor-link" href="#A-Basic-Structure-/-The-Manual-Way">&#182;</a></h3><p>Commands, like described in the text above, run when scheduled, until they are interrupted or their end condition is met, and so primarily consist of four core methods to facilitate that workflow:</p>
+<ol>
+<li><code>initialize</code> - called once when the command is first scheduled and starts execution<ul>
+<li>where any necessary setup should be done (similar to the <code>Init</code> methods in <code>Robot</code>)</li>
+</ul>
+</li>
+<li><code>execute</code> - called repeatedly while the command is scheduled<ul>
+<li>where the bulk of the command's logic should be placed (similar to the <code>Periodic</code> methods in <code>Robot</code>)</li>
+</ul>
+</li>
+<li><code>isFinished</code> - called repeatedly while the command is scheduled<ul>
+<li>determines whether the objective of the command has been met</li>
+</ul>
+</li>
+<li><code>end</code> - called once when the command is finished to do any necessary cleanup<ul>
+<li>method has an <code>interrupted</code> parameter that describes whether it finished successfully (<code>interrupted=false</code>) or was shut down by the scheduler (<code>interrupted=true</code>)</li>
+</ul>
+</li>
+</ol>
+<p>Commands can be manually created by extending the <code>CommandBase</code> class, the template for creating arbitrary commands, and overriding the aforementioned methods to achieve the desired behavior.</p>
+<p>In CommandBase, the default behavior for each <code>initalize</code>, <code>execute</code>, and <code>end</code> is to do nothing, and the default behavior for <code>isFinished</code> is to return <code>false</code>, which means that the default command will run until the robot is disabled and will do nothing.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="c1">// disclaimer: this was written with 2023 version, so should be updated accordingly in future years if used</span>
+<span class="c1">// in particular, CommandBase will be deprecated, and the new Command class will take over its function</span>
+<span class="c1">// at present, Command is an interface, not a class, so CommandBase is used here instead</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">edu.wpi.first.wpilibj2.command.CommandBase</span><span class="p">;</span>
 
 <span class="kd">class</span> <span class="nc">ExampleCommand</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">CommandBase</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="nd">@Override</span>
-<span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">initialize</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">initialize</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;initializing&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
 
-<span class="w">  </span><span class="nd">@Override</span>
-<span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">execute</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">execute</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;executing&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
 
-<span class="w">  </span><span class="nd">@Override</span>
-<span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">end</span><span class="p">(</span><span class="kt">boolean</span><span class="w"> </span><span class="n">interrupted</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
-
-<span class="w">  </span><span class="nd">@Override</span>
-<span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">isFinished</span><span class="p">(){</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">end</span><span class="p">(</span><span class="kt">boolean</span><span class="w"> </span><span class="n">interrupted</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">interrupted</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;interrupted&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;ending&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 
+    </div>
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>initialize</code> : when the command starts executing (similar to the <code>&lt;x&gt;Init</code> methods)</p>
-<ul>
-<li>set up everything needed for the execution of the command</li>
-</ul>
-<p><code>execute</code> : while the command is running (similar to the <code>&lt;x&gt;Periodic</code> methods)</p>
-<ul>
-<li>the main thing  the action/command is trying to accomplish</li>
-</ul>
-<p><code>end</code> : directly after the command stops running</p>
-<ul>
-<li>clean up and finalize the command (bring it to a conclusion)</li>
-<li>the <code>interrupted</code> parameter is whether it finished successfully (<code>false</code>) or was shut down by the scheduler (<code>true</code>)</li>
-</ul>
-<p><code>isFinished</code> checks whether the command has accomplished its goal</p>
-<ul>
-<li>if it returns <code>true</code>, then <code>end</code> will be called with <code>false</code> and execution for the command will stop</li>
-<li>always returning false makes it never stop unless interrupted</li>
-</ul>
+<h3 id="Managing-Requirements">Managing Requirements<a class="anchor-link" href="#Managing-Requirements">&#182;</a></h3><p>A Command like the one constructed above isn't very helpful on its own, commands often need to interact with subsystems to perform their desired task. To specify which subsystems are required, we need to call the <code>addRequirements</code> method of <code>CommandBase</code> on all the subsystems that we need.</p>
+<p>Specifying which requirements a command has is important for the scheduler (thing that manages execution of our commands) to know in order to avoid conflicts, such as a case where two commands are try to use the same subsystem at the same time but with differing inputs.</p>
+<p>In the case of these manually defined events, this is often done in the constructor where the relevant subsytems are passed in as parameters:</p>
+<blockquote>
+<p>Aside: this is an example of a pattern called <code>dependency injection</code> where things that the command needs (dependencies) are provided (injected). Here, this pattern helps seperate the creation and usage of our subsystems</p>
+</blockquote>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Note-:-Default-Behaviors">Note : Default Behaviors<a class="anchor-link" href="#Note-:-Default-Behaviors">&#182;</a></h4><p>by default the <code>end</code>, <code>initialize</code>, and <code>execute</code> methods do nothing, and <code>isFinished</code> always returns false, so a very simple command that always runs in the background can get away with just overriding <code>execute</code>.</p>
-<p>We'll expand on this later by introducing default commands</p>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-java"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">edu.wpi.first.wpilibj2.command.SubsystemBase</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">edu.wpi.first.wpilibj2.command.CommandBase</span><span class="p">;</span>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Binding-Subsystems">Binding Subsystems<a class="anchor-link" href="#Binding-Subsystems">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>A Command like that on its own isn't very helpful, commands need to interact with subsystems to perform some useful action. To specify which subsystems, we need to call the <code>addRequirements</code> method of <code>CommandBase</code> on all the subsystems that we need (usually in the constructor).</p>
-<div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">ExampleCommand</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">CommandBase</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">ExampleCommand</span><span class="p">(){</span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">addRequirements</span><span class="p">(</span><span class="n">subsys1</span><span class="p">,</span><span class="w"> </span><span class="n">subsys2</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span>
+<span class="kd">class</span> <span class="nc">ExampleSubsystem</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">SubsystemBase</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// subsystem code here</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">ExampleCommand</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">CommandBase</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">ExampleCommand</span><span class="p">(</span><span class="n">ExampleSubsystem</span><span class="w"> </span><span class="n">subsys1</span><span class="p">,</span><span class="w"> </span><span class="n">ExampleSubsystem</span><span class="w"> </span><span class="n">subsys2</span><span class="p">){</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">addRequirements</span><span class="p">(</span><span class="n">subsys1</span><span class="p">,</span><span class="w"> </span><span class="n">subsys2</span><span class="p">);</span><span class="w"> </span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">    </span><span class="nd">@Override</span>
 <span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">execute</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -13929,93 +14064,21 @@ now in reverse order:
 <span class="p">}</span>
 </pre></div>
 
+    </div>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>But how do we get those subsystems???</p>
 
 </div>
-</div>
-</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Note : If we created these subsystem in the command, then we'd have duplicate sub-systems for the same components!</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We can do it cleanly by passing subsystem objects to the constructor:</p>
-<div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">ExampleCommand</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">CommandBase</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">ExampleCommand</span><span class="p">(</span><span class="n">SubSystemName</span><span class="w"> </span><span class="n">subsys1</span><span class="p">,</span><span class="w"> </span><span class="p">...){</span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">addRequirements</span><span class="p">(</span><span class="n">subsys1</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>This is an example of a pattern called <code>dependency injection</code> where things that the command needs (dependencies) are provided (injected). This helps seperate the creation and usage of out subsystems, in a nod to the principle of <code>seperation of concerns</code> from before.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Default-Commands">Default Commands<a class="anchor-link" href="#Default-Commands">&#182;</a></h3><p>One particular command usage for a command is to have it always run. These commands often handle core background tasks that are essential to the function of the robot, like a <code>drive</code> command that controls robot motion.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>for these types of commands, we can make that command a <code>default</code> command of the subsystem:</p>
-<div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">ExampleCommand</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">CommandBase</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">ExampleCommand</span><span class="p">(</span><span class="n">SubSystemName</span><span class="w"> </span><span class="n">subsys1</span><span class="p">){</span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">addRequirements</span><span class="p">(</span><span class="n">subsys1</span><span class="p">);</span>
-<span class="w">        </span><span class="c1">// this refers to the current object</span>
-<span class="w">        </span><span class="n">subsys1</span><span class="p">.</span><span class="na">setDefaultCommand</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>If the subsystem is not the requirement of some other command, then this default command will be executed.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Example-Command">Example Command<a class="anchor-link" href="#Example-Command">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<div class="highlight"><pre><span></span><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ClimberCommand</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">CommandBase</span><span class="w"> </span><span class="p">{</span>
+<h4 id="Default-Commands">Default Commands<a class="anchor-link" href="#Default-Commands">&#182;</a></h4><p>One particular usage for commands command usage for a command is to have it always run on one or more specific subsystems. These commands often handle core background tasks that are essential to the function of the robot, like a <code>drive</code> command that controls robot motion.</p>
+<p>When the subsystem is not being used by another command, the specified default command will run.</p>
+<div class="highlight"><pre><span></span><span class="c1">// complete but simplified example of a manually defined command that acts </span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ClimberCommand</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">CommandBase</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Climber</span><span class="w"> </span><span class="n">climber</span><span class="p">;</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">UserAnalog</span><span class="w"> </span><span class="n">speed</span><span class="p">;</span>
-<span class="w">    </span><span class="c1">// climber is the subsystem</span>
+<span class="w">    </span><span class="c1">// climber is the subsystem which will default to this command</span>
 <span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">ClimberCommand</span><span class="p">(</span><span class="n">Climber</span><span class="w"> </span><span class="n">climber</span><span class="p">,</span><span class="w"> </span><span class="n">UserAnalog</span><span class="w"> </span><span class="n">speed</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">climber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">climber</span><span class="p">;</span>
 <span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">speed</span><span class="p">;</span>
@@ -14038,68 +14101,18 @@ now in reverse order:
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="The-Command-Scheduler">The Command Scheduler<a class="anchor-link" href="#The-Command-Scheduler">&#182;</a></h2><p>Now that we have our command, how do we run it? We defined methods for what to do in different cases with <code>initalize</code>, <code>execute</code>, and <code>end</code>, but we never called them anywhere.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Luckily, there is something that handles this, as well as the general logic of commands for us: the Command Scheduler.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Since there should only be 1 instance of the command scheduler, we get it through an <code>getInstance</code> static method, e.g.</p>
-<div class="highlight"><pre><span></span><span class="c1">// CommandScheduler is what is known as a &quot;singleton&quot;</span>
-<span class="n">CommandScheduler</span><span class="p">.</span><span class="na">getInstance</span><span class="p">().</span><span class="na">run</span><span class="p">();</span>
-</pre></div>
-<p>the CommandScheduler instance has 2 methods of use to us: <code>schedule</code> and <code>run</code></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><code>schedule</code> sets up a command to be run, and checks whether it makes sense to run the command, and then takes appropriate actions. These checks include:</p>
-<ul>
-<li>whether the command is already scheduled</li>
-<li>whether the subsystems required aren't already being used<ul>
-<li>if they are being used, whether the other commands be interrupted</li>
-</ul>
-</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><code>run</code> runs through 1 cycle of the command scheduler, which involves:</p>
-<ul>
-<li>running each Subsystem <code>periodic</code> method</li>
-<li>executing all scheduled commands</li>
-<li>seeing which commands have finished and remove them from the schedule</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Using-commands">Using commands<a class="anchor-link" href="#Using-commands">&#182;</a></h3><p>to use our commands, we'd only need to call <code>schedule</code> on them when the correct condition is met. For our default commands, this isn't necessary. For example, if we wanted some command to run at the very start, then we could do:</p>
-<div class="highlight"><pre><span></span><span class="nd">@Override</span>
-<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">robotInit</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">CommandScheduler</span><span class="p">.</span><span class="na">getInstance</span><span class="p">().</span><span class="na">schedule</span><span class="p">(</span>
-<span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="n">SomeCommand</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">SomeSubsystem</span><span class="p">(...))</span>
-<span class="w">    </span><span class="p">);</span>
+<h3 id="The-Command-Scheduler"><a href="https://docs.wpilib.org/en/stable/docs/software/commandbased/command-scheduler.html">The Command Scheduler</a><a class="anchor-link" href="#The-Command-Scheduler">&#182;</a></h3><p>Now that we have our command, how do we run it? We defined methods for what to do in different cases with <code>initalize</code>, <code>execute</code>, and <code>end</code>, but we never called them anywhere.</p>
+<p>In the command based framework, the construct that handles this, as well as the general logic of commands for us is the <code>CommandScheduler</code>. The job of the scheduler here is similar to the <code>EventLoop</code> from the previous section about <code>BooleanEvent</code>s, in that it manages every aspect of the execution of commands like an <code>EventLoop</code> manages its events and their associated actions.</p>
+<p>Like how the EventLoop must be <code>poll</code>ed regularly, so too must the CommandScheduler be <code>run</code> regularly. This is done by calling the <code>run</code> method of the scheduler in the <code>robotPeriodic</code> method of our Robot class.</p>
+<p>However, one important difference is that there is only one copy of the CommandScheduler, and it is a static field of the <code>CommandScheduler</code> class. As such, we don't need to create an instance of it, and can instead just call the <code>getInstance</code> method to get the scheduler.</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">edu.wpi.first.wpilibj.TimedRobot</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">edu.wpi.first.wpilibj2.command.CommandScheduler</span><span class="p">;</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Robot</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">TimedRobot</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">robotPeriodic</span><span class="p">(){</span>
+<span class="w">        </span><span class="c1">// this specific pattern is called the &#39;singleton&#39; pattern</span>
+<span class="w">        </span><span class="n">CommandScheduler</span><span class="p">.</span><span class="na">getInstance</span><span class="p">().</span><span class="na">run</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -14109,11 +14122,9 @@ now in reverse order:
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We'd also need to reliably run our <code>CommandScheduler</code> each cycle, so we would call the <code>run</code> method from <code>robotPeriodic</code>:</p>
-<div class="highlight"><pre><span></span><span class="nd">@Override</span>
-<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">robotPeriodic</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">CommandScheduler</span><span class="p">.</span><span class="na">getInstance</span><span class="p">().</span><span class="na">run</span><span class="p">();</span>
-<span class="p">}</span>
+<p>To directly add our commands to the scheduler, the <code>schedule</code> method of the command can be used:</p>
+<div class="highlight"><pre><span></span><span class="kd">var</span><span class="w"> </span><span class="n">exCmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ExampleCommand</span><span class="p">(</span><span class="n">subsys1</span><span class="p">,</span><span class="w"> </span><span class="n">subsys2</span><span class="p">);</span>
+<span class="n">exCnd</span><span class="p">.</span><span class="na">schedule</span><span class="p">();</span>
 </pre></div>
 
 </div>
@@ -14122,48 +14133,27 @@ now in reverse order:
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Digression-:-Simplicity-&amp;-Abstraction">Digression : Simplicity &amp; Abstraction<a class="anchor-link" href="#Digression-:-Simplicity-&amp;-Abstraction">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Both by using the command scheduler as opposed to manually managing our subsystems, and by using subsystems instead of working with individual electronics, we saw that our code got a lot cleaner, and we were also able to better understand its logic.</p>
-<p>(e.g. It's much easier to understand <code>drive the robot</code> as a high level instruction than it is to understand what happens when individual motors are spun)</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>This idea of code being much more understandable as more and more gets hidden and abstracted away from us is a common one in computing in general. In very many applications, it's often important that we see which parts of the problem are important for us as people to reason with, and which parts can be handled without us needing to think about it explicitly.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Grouping-Commands">Grouping Commands<a class="anchor-link" href="#Grouping-Commands">&#182;</a></h2><p>We've seen how to work with individual commands, but there are many cases where we want two commands to run at the same time (in parallel), or one after the other (in sequence), or in any number of ways depending on the circumstances.</p>
-<p>Using the existing features, we can use the <code>initalize</code> and <code>end</code> methods to schedule parallel and sequential commands respectively, but WPILib offers us a much more elegant solution...</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Sequencing-commands">Sequencing commands<a class="anchor-link" href="#Sequencing-commands">&#182;</a></h3><p>To run one command after another, we can do one of two things.</p>
-<ol>
-<li>we can a <code>Command</code>'s <code>andThen</code>/<code>beforeStarting</code> methods to run commands after/before some command. (Note that <code>andThen</code> can take &gt; 1 commands, but <code>beforeStarting</code> only takes 1)</li>
-</ol>
-<div class="highlight"><pre><span></span><span class="c1">// a chain of commands</span>
-<span class="n">command1</span>
-<span class="w">  </span><span class="p">.</span><span class="na">andThen</span><span class="p">(</span><span class="n">command2</span><span class="p">,</span><span class="w"> </span><span class="n">command3</span><span class="p">)</span>
-<span class="w">  </span><span class="p">.</span><span class="na">beforeStarting</span><span class="p">(</span><span class="n">command0</span><span class="p">);</span>
+<h3 id="A-More-Concise-Way-of-Creating-Commands">A More Concise Way of Creating Commands<a class="anchor-link" href="#A-More-Concise-Way-of-Creating-Commands">&#182;</a></h3><p>While the manual way of defining commands works (and which we used the past few years), it's rather verbose and repetitive in its structure, such it's usage of constructor parameters to pass in the required subsystems and inputs.</p>
+<p>Looking at the above ClimberCommand, we can see this is the case, as its fields serve only to give the methods access to the inputs and subsystems without housing any other internal state.</p>
+<p>In cases like this where we don't need to modify any internal state, we are able to create lambdas for each of the four (<code>initialize</code>, <code>execute</code>, <code>end</code>, and <code>isFinished</code>) methods and create a <code>FunctionalCommand</code> by providing by providing those lambdas and any required subsystems to its constructor.</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">edu.wpi.first.wpilibj2.command.FunctionalCommand</span><span class="p">;</span>
+<span class="c1">// ... in RobotContainer for instance:</span>
+<span class="n">Climber</span><span class="w"> </span><span class="n">climber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span>
+<span class="n">UserAnalog</span><span class="w"> </span><span class="n">speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span>
+<span class="kd">var</span><span class="w"> </span><span class="n">climberCommand</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="k">new</span><span class="w"> </span><span class="n">FunctionalCommand</span><span class="p">(</span>
+<span class="w">    </span><span class="c1">// initialize</span>
+<span class="w">    </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">    </span><span class="c1">// execute</span>
+<span class="w">    </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">climber</span><span class="p">.</span><span class="na">extend</span><span class="p">(</span><span class="n">speed</span><span class="p">.</span><span class="na">get</span><span class="p">(),</span><span class="w"> </span><span class="kc">false</span><span class="p">),</span>
+<span class="w">    </span><span class="c1">// end</span>
+<span class="w">    </span><span class="n">interrupt</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">    </span><span class="c1">// isFinished</span>
+<span class="w">    </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="c1">// requirements</span>
+<span class="w">    </span><span class="n">climber</span>
+<span class="p">)</span>
 </pre></div>
+<p>In addition to <code>FunctionalCommand</code>, there are also a collection of additional <a href="https://docs.wpilib.org/en/stable/docs/software/commandbased/commands.html#included-command-types">preset command classes</a> that can be used to create commands for other common and niche use cases. Most of these are also accessible through corresponding factory methods, with the idea of representing the four behaviors .</p>
 
 </div>
 </div>
@@ -14171,14 +14161,56 @@ now in reverse order:
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<ol start="2">
-<li>we can create a <code>SequentialCommandGroup</code> with all the commands we want to run:</li>
-</ol>
-<div class="highlight"><pre><span></span><span class="k">new</span><span class="w"> </span><span class="n">SequentialCommandGroup</span><span class="p">(</span>
-<span class="w">  </span><span class="n">command0</span><span class="p">,</span>
-<span class="w">  </span><span class="n">command1</span><span class="p">,</span>
-<span class="w">  </span><span class="n">command2</span><span class="p">,</span>
-<span class="w">  </span><span class="n">command3</span>
+<h2 id="Command-Factories">Command Factories<a class="anchor-link" href="#Command-Factories">&#182;</a></h2><p>The bulk of the useful factory methods for commands are found in the <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Commands.html"><code>Commands</code></a> class as static methods where the particular inputs for each factory can be found in the above link.</p>
+<h3 id="General-Command-Factories">General Command Factories<a class="anchor-link" href="#General-Command-Factories">&#182;</a></h3><p>These command factories usually take one or more functions that describe the behaviors (<code>initalize</code>, <code>execute</code>,  <code>isFinished</code>, and <code>end</code>) of the command, as well as any required subsystems.</p>
+<p>The command created by:</p>
+<ul>
+<li><code>runOnce(action, reqs...)</code> runs <code>action</code> once and terminates</li>
+<li><code>startEnd(start, end, reqs...)</code>  runs <code>start</code> when it starts and <code>end</code> when it gets interrupted</li>
+<li><code>run(action, reqs...)</code> runs <code>action</code> everytime until interrupted</li>
+<li><code>runEnd(run, end, reqs... )</code> runs <code>run</code> everytime until interrupted and then runs <code>end</code> once</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="kd">var</span><span class="w"> </span><span class="n">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Commands</span><span class="p">.</span><span class="na">runOnce</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Hello World&quot;</span><span class="p">));</span>
+</pre></div>
+<blockquote>
+<p>note: if you want to avoid repetition of &quot;Commands.&quot; you can use a static import, which will add all static methods of Commands to the namespace of the file.</p>
+<div class="highlight"><pre><span></span><span class="kn">import static</span><span class="w"> </span><span class="nn">edu.wpi.first.wpilibj2.command.Commands.*</span><span class="p">;</span>
+<span class="c1">// ...</span>
+<span class="kd">var</span><span class="w"> </span><span class="n">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">runOnce</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Hello World&quot;</span><span class="p">));</span>
+</pre></div>
+</blockquote>
+<h3 id="Timed-Commands">Timed Commands<a class="anchor-link" href="#Timed-Commands">&#182;</a></h3><p>a specialized pair of methods whose resulting commands do nothing for a while. These are useful when sequenced with other commands to create a delay between them and wait until conditions are ideal for the next command to run.</p>
+<p>Since these commands do nothing, they don't need any subsystems as requirements:</p>
+<p>The command created by:</p>
+<ul>
+<li><code>waitSeconds(seconds)</code> - waits <code>seconds</code> before finishing</li>
+<li><code>waitUntil(condition)</code> - waits until <code>condition</code> is true before finishing</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Combining-Commands">Combining Commands<a class="anchor-link" href="#Combining-Commands">&#182;</a></h3><p>the Commands class also includes a collection of methods for combining commands together to create more complex behaviors, such as creating sequences of events, running commands in parallel, and selecting events based on conditions.</p>
+<p>Typically these types of combinators take one or more commands and return a new command that represents the combination of the original commands.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Sequential-Commands">Sequential Commands<a class="anchor-link" href="#Sequential-Commands">&#182;</a></h4><p>sequential chains of commands can be created with the <code>sequence</code> and <code>repeatingSequence</code> methods. Both run their commands in order, but <code>repeatingSequence</code> will repeat the sequence once it finishes. E.g.:</p>
+<div class="highlight"><pre><span></span><span class="c1">// should finish in ~3 second when the last print has been finished</span>
+
+<span class="kd">var</span><span class="w"> </span><span class="n">seqcmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Commands</span><span class="p">.</span><span class="na">sequence</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Commands</span><span class="p">.</span><span class="na">runOnce</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;first&quot;</span><span class="p">)),</span>
+<span class="w">    </span><span class="n">Commands</span><span class="p">.</span><span class="na">waitSeconds</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+<span class="w">    </span><span class="n">Commands</span><span class="p">.</span><span class="na">runOnce</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;second&quot;</span><span class="p">)),</span>
+<span class="w">    </span><span class="n">Commands</span><span class="p">.</span><span class="na">waitSeconds</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+<span class="w">    </span><span class="n">Commands</span><span class="p">.</span><span class="na">runOnce</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;third&quot;</span><span class="p">))</span>
 <span class="p">);</span>
 </pre></div>
 
@@ -14188,7 +14220,16 @@ now in reverse order:
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>the <code>andThen</code> and <code>beforeStarting</code> methods also return a <code>SequentialCommandGroup</code> object, so both these methods can be equally good. <code>SequentialCommandGroup</code>s are themselves commands, so they also be used wherever any individual <code>Command</code> is needed. (they extend a class which extends CommandBase)</p>
+<h4 id="Parallel-Commands">Parallel Commands<a class="anchor-link" href="#Parallel-Commands">&#182;</a></h4><p>parallel commands can be created with the <code>parallel</code> and <code>race</code> methods, which runs all of its commands at the same time. The event created by <code>parallel</code> will finish when all of its commands finish, while the event created by <code>race</code> will terminate when any of its commands finish. E.g.:</p>
+<div class="highlight"><pre><span></span><span class="c1">// should finish in ~2 seconds, when the last print is done</span>
+<span class="kd">var</span><span class="w"> </span><span class="n">parcmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Commands</span><span class="p">.</span><span class="na">parallel</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Commands</span><span class="p">.</span><span class="na">runOnce</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;first&quot;</span><span class="p">)),</span>
+<span class="w">    </span><span class="n">Commands</span><span class="p">.</span><span class="na">waitSeconds</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+<span class="w">    </span><span class="n">Commands</span><span class="p">.</span><span class="na">runOnce</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;second&quot;</span><span class="p">)),</span>
+<span class="w">    </span><span class="n">Commands</span><span class="p">.</span><span class="na">waitSeconds</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+<span class="w">    </span><span class="n">Commands</span><span class="p">.</span><span class="na">runOnce</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;third&quot;</span><span class="p">))</span>
+<span class="p">);</span>
+</pre></div>
 
 </div>
 </div>
@@ -14196,7 +14237,23 @@ now in reverse order:
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Parallelizing-Commands">Parallelizing Commands<a class="anchor-link" href="#Parallelizing-Commands">&#182;</a></h3><p>Unlike sequential commands, which just involve running one command, and then running another when the first command finishes, there are many ways to parallelize commands, since those individual commands can end at different times.</p>
+<p>If we want to use a particular event to determine when a parallel command should terminate, we'd use the <code>deadline</code> method, whose event terminates when its first argument finishes.</p>
+<h4 id="Selective-Commands">Selective Commands<a class="anchor-link" href="#Selective-Commands">&#182;</a></h4><p>The <code>either</code> and <code>select</code> factories allows for the creation of commands that run one of two commands  or more commands respectively, based on the result of a condition (boolean for <code>either</code> and some object for <code>select</code>). E.g.:</p>
+<div class="highlight"><pre><span></span><span class="kd">var</span><span class="w"> </span><span class="n">cmd1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Commands</span><span class="p">.</span><span class="na">either</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Commands</span><span class="p">.</span><span class="na">runOnce</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;t&quot;</span><span class="p">)),</span>
+<span class="w">    </span><span class="n">Commands</span><span class="p">.</span><span class="na">runOnce</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;f&quot;</span><span class="p">)),</span>
+<span class="w">    </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">);</span><span class="w"> </span><span class="c1">// gives a command that prints &quot;t&quot;</span>
+
+<span class="kd">var</span><span class="w"> </span><span class="n">cmd2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Commands</span><span class="p">.</span><span class="na">select</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Map</span><span class="p">.</span><span class="na">of</span><span class="p">(</span>
+<span class="w">        </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Commands</span><span class="p">.</span><span class="na">runOnce</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;one&quot;</span><span class="p">)),</span>
+<span class="w">        </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">Commands</span><span class="p">.</span><span class="na">runOnce</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;two&quot;</span><span class="p">))</span>
+<span class="w">        </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="n">Commands</span><span class="p">.</span><span class="na">runOnce</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;four&quot;</span><span class="p">))</span>
+<span class="w">    </span><span class="p">),</span>
+<span class="w">    </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">4</span>
+<span class="p">);</span><span class="w"> </span><span class="c1">// gives a command that prints &quot;four&quot;</span>
+</pre></div>
 
 </div>
 </div>
@@ -14204,11 +14261,17 @@ now in reverse order:
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="We-Could...">We Could...<a class="anchor-link" href="#We-Could...">&#182;</a></h4><ul>
-<li>end when one of the commands ends</li>
-<li>end when all of the commands end</li>
-<li>end when a specific command ends</li>
-</ul>
+<h2 id="Triggers-:-An-Addendum">Triggers : An Addendum<a class="anchor-link" href="#Triggers-:-An-Addendum">&#182;</a></h2><p>With the introduction of Commands, it is also useful to look at an additional construction that we can use to associate commands with events in the same way BooleanEvents work with actions. Here WPILib provides us with the <code>Trigger</code> class, which mirrors the <code>BooleanEvent</code> class in many ways, but instead of taking in an action as a <code>Runnable</code> function, it takes in a <code>Command</code> instead.</p>
+<p>The exact set of functionality provided by Triggers can be found in its <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/button/Trigger.html">javadoc</a>. Some of the method names change between the two classes (such as onFalse and onTrue instead of falling and rising). Also since Commands are more versatile than actions used in BooleanEvents, <code>Trigger</code> has some methods which do not have parallels in <code>BooleanEvent</code>, such as the while methods and the toggle methods.</p>
+<p>Triggers also allow us to directly link controller inputs to their associated functions, and as a result, (with the exception of default events) much of the scheduling of commands during the teleop phase can be done with Triggers instead of being done manually: E.g.:</p>
+<div class="highlight"><pre><span></span><span class="c1">// in RobotContainer</span>
+<span class="kd">var</span><span class="w"> </span><span class="n">intake</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Intake</span><span class="p">();</span><span class="w"> </span><span class="c1">// subsystem</span>
+<span class="kd">var</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/* get button input (next section) */</span><span class="p">;</span>
+<span class="kd">var</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/* get button input (next section) */</span><span class="p">;</span>
+<span class="n">in</span><span class="p">.</span><span class="na">whileTrue</span><span class="p">(</span><span class="n">intake</span><span class="p">.</span><span class="na">suckCommand</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+<span class="n">out</span><span class="p">.</span><span class="na">whileTrue</span><span class="p">(</span><span class="n">intake</span><span class="p">.</span><span class="na">suckCommand</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span>
+</pre></div>
+<p>In addition, when they are manually created, Triggers have the option of either being bound to an EventLoop like BooleanEvents, or to the CommandScheduler, based on whether they recieve an EventLoop or not in the constructor. Examples on how Triggers can be used in conjunction with commands can be found <a href="https://docs.wpilib.org/en/stable/docs/software/commandbased/binding-commands-to-triggers.html">here</a>.</p>
 
 </div>
 </div>
@@ -14216,11 +14279,19 @@ now in reverse order:
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Luckily,-we-can-do-all-3">Luckily, we can do all 3<a class="anchor-link" href="#Luckily,-we-can-do-all-3">&#182;</a></h4><ol>
-<li>to end when the one command finishes, we can use the <code>raceWith</code> method</li>
-<li>to end when the all commands finish, we can use the <code>alongWith</code> method</li>
-<li>to end when a specific command finishes, we can use the <code>deadlineWith​</code> method</li>
-</ol>
+<h3 id="Getting-Trigger-Objects">Getting Trigger Objects<a class="anchor-link" href="#Getting-Trigger-Objects">&#182;</a></h3><p>Triggers, by their design, are very suited for usage with user inputs. As such, the WPILib library provides a collection of methods for creating Triggers from inputs, and our own <code>UserDigital</code> interface has a helper method for creating a Trigger.</p>
+<h4 id="From-UserDigital">From UserDigital<a class="anchor-link" href="#From-UserDigital">&#182;</a></h4><p>The UserDigital interface has a default method <code>asTrigger</code> which creates a Trigger from the UserDigital object.</p>
+<div class="highlight"><pre><span></span><span class="n">UserDigital</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="kd">var</span><span class="w"> </span><span class="n">trigger</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="p">.</span><span class="na">asTrigger</span><span class="p">();</span>
+</pre></div>
+<blockquote>
+<p>Note: UserDigital also has a asBooleanEvent method which creates a BooleanEvent from the UserDigital object when provided with an EventLoop argument. There is currently no method to create a trigger with an EventLoop from a UserDigital.</p>
+</blockquote>
+<h4 id="From-Digital-Inputs-More-Generally">From Digital Inputs More Generally<a class="anchor-link" href="#From-Digital-Inputs-More-Generally">&#182;</a></h4><p>The command-based input classes, such as <code>CommandXboxController</code> or <code>CommandGenericHID</code> for general inputs have methods for their digital (button) inputs that create Triggers from them. As an example, to create a Trigger from the <code>A</code> button of an <code>XboxController</code>:</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">edu.wpi.first.wpilibj2.command.button.CommandXboxController</span><span class="p">;</span>
+<span class="kd">var</span><span class="w"> </span><span class="n">controller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CommandXboxController</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"> </span><span class="c1">//input being the port on driver station</span>
+<span class="kd">var</span><span class="w"> </span><span class="n">trigger</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">controller</span><span class="p">.</span><span class="na">a</span><span class="p">();</span><span class="w"> </span><span class="c1">// an eventLoop can also be provided</span>
+</pre></div>
 
 </div>
 </div>
@@ -14228,35 +14299,7 @@ now in reverse order:
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Direct-Construction">Direct Construction<a class="anchor-link" href="#Direct-Construction">&#182;</a></h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Similar to sequenced command groups, we can also directly construct parallel command group object instead of using those methods. As there are three ways to parallelize commands, there are 3 different parallel command groups that we can use.</p>
-<ol>
-<li>ParallelRaceGroup</li>
-<li>ParallelCommandGroup</li>
-<li>ParallelDeadlineGroup</li>
-</ol>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The methods from before return values of these types, and values of these parallel groups, like values of sequential command groups, are themselves valid commands</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="The-in-depth-description">The in-depth description<a class="anchor-link" href="#The-in-depth-description">&#182;</a></h3><p><a href="https://docs.wpilib.org/en/stable/docs/software/commandbased/structuring-command-based-project.html">https://docs.wpilib.org/en/stable/docs/software/commandbased/structuring-command-based-project.html</a></p>
+<h3 id="The-in-depth-descriptions">The in-depth descriptions<a class="anchor-link" href="#The-in-depth-descriptions">&#182;</a></h3><p><a href="https://docs.wpilib.org/en/stable/docs/software/commandbased/structuring-command-based-project.html">https://docs.wpilib.org/en/stable/docs/software/commandbased/structuring-command-based-project.html</a></p>
 <h3 id="Documentation">Documentation<a class="anchor-link" href="#Documentation">&#182;</a></h3><ul>
 <li><a href="https://first.wpi.edu/wpilib/allwpilib/docs/release/java/index.html">https://first.wpi.edu/wpilib/allwpilib/docs/release/java/index.html</a></li>
 <li><a href="https://api.ctr-electronics.com/phoenix/release/java/index.html">https://api.ctr-electronics.com/phoenix/release/java/index.html</a></li>

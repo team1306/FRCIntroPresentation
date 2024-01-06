@@ -13150,7 +13150,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Going even further, we see that this framework can be used to further break down layers 3 and 2 into individual pieces, called <code>subsystem</code>s, and <code>command</code>s.</p>
+<p>Going even further, we see that this framework can be used to further break down layers 3 and 2 into individual pieces, called <code>subsystem</code>s, and <code>command</code>s. This document will be primarily dedicated to briefly exploring subsystems and the general structure of our codecase, while the next document will be dedicated to commands and its related concepts.</p>
 <center>
   <img src="../Images/SubsysAndComms.svg" alt = "" width = 700/>
 </center>
@@ -13161,24 +13161,9 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Subsystems">Subsystems<a class="anchor-link" href="#Subsystems">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<blockquote>
-<p>Subsystems encapsulate lower-level robot hardware (such as motor controllers, sensors, and/or pneumatic actuators), and define the interfaces through which that hardware can be accessed by the rest of the robot code. Subsystems allow users to “hide” the internal complexity of their actual hardware from the rest of their code</p>
-<p>- WPILIB documentation</p>
+<h2 id="Subsystems"><a href="https://docs.wpilib.org/en/stable/docs/software/commandbased/subsystems.html">Subsystems</a><a class="anchor-link" href="#Subsystems">&#182;</a></h2><blockquote>
+<p>Subsystems are the basic unit of robot organization in the command-based paradigm. A subsystem is an abstraction for a collection of robot hardware that operates together as a unit. Subsystems encapsulate lower-level robot hardware (such as motor controllers, sensors, and/or pneumatic actuators), and define the interfaces through which that hardware can be accessed by the rest of the robot code. Subsystems allow users to “hide” the internal complexity of their actual hardware from the rest of their code</p>
 </blockquote>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <p>In essense, subsystems are simple abstraction that group bits of hardware that work to control one core part of the robot (like driving). Then, after creating a subsystem, we can communicate with that subsystem directly instead of managing its individual components.</p>
 
 </div>
@@ -13216,7 +13201,7 @@ div#notebook {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Subsystem-Example:-Drivetrain">Subsystem Example: Drivetrain<a class="anchor-link" href="#Subsystem-Example:-Drivetrain">&#182;</a></h3><p>The drivetrain consists of the parts of the robot that move the wheels and drive the robot.</p>
-<p>example: West Coast Drive drivetrain</p>
+<p>pcitured example: West Coast Drive drivetrain</p>
 <center>
   <img src="../Images/Drivetrain.png" alt = "" width = 800/>
 </center>
@@ -13369,13 +13354,14 @@ div#notebook {
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Inputs-with-Subsystems">Inputs with Subsystems<a class="anchor-link" href="#Inputs-with-Subsystems">&#182;</a></h2><p>With these two tools, we can start to create a pretty crude and simple design for how our robot might work by directly adding code into the <code>Robot.java</code> file (something we won't actually be doing a lot with, and we'll see why in the next document).</p>
 <p>A pretty rudimentary example of our robot instructions could be to have it run forwards based on the Y axis values of the left controller joystick during the teleoperated period, which we can represent as the following method in <code>Robot</code>:</p>
-<div class="highlight"><pre><span></span><span class="c1">// in class Robot</span>
-<span class="kd">private</span><span class="w"> </span><span class="n">UserAnalog</span><span class="w"> </span><span class="n">lyaxis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Controller</span><span class="p">.</span><span class="na">simpleAxis</span><span class="p">(</span><span class="n">Controller</span><span class="p">.</span><span class="na">PRIMARY</span><span class="p">,</span><span class="w"> </span><span class="n">Controller</span><span class="p">.</span><span class="na">AXIS_LY</span><span class="p">);</span>
-<span class="kd">private</span><span class="w"> </span><span class="n">ExDriveTrain</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ExDriveTrain</span><span class="p">();</span>
-<span class="c1">// ...</span>
-<span class="nd">@Override</span>
-<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">teleopPeriodic</span><span class="p">(){</span>
-<span class="w">    </span><span class="n">dt</span><span class="p">.</span><span class="na">drive</span><span class="p">(</span><span class="n">lyaxis</span><span class="p">.</span><span class="na">get</span><span class="p">(),</span><span class="w"> </span><span class="n">lyaxis</span><span class="p">.</span><span class="na">get</span><span class="p">());</span>
+<div class="highlight"><pre><span></span><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Robot</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">TimedRobot</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">UserAnalog</span><span class="w"> </span><span class="n">lyaxis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Controller</span><span class="p">.</span><span class="na">simpleAxis</span><span class="p">(</span><span class="n">Controller</span><span class="p">.</span><span class="na">PRIMARY</span><span class="p">,</span><span class="w"> </span><span class="n">Controller</span><span class="p">.</span><span class="na">AXIS_LY</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">ExDriveTrain</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ExDriveTrain</span><span class="p">();</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">teleopPeriodic</span><span class="p">(){</span>
+<span class="w">        </span><span class="n">dt</span><span class="p">.</span><span class="na">drive</span><span class="p">(</span><span class="n">lyaxis</span><span class="p">.</span><span class="na">get</span><span class="p">(),</span><span class="w"> </span><span class="n">lyaxis</span><span class="p">.</span><span class="na">get</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 <p>or perhaps we could've wanted to run our robot forwards if a button was pressed and backwards if it was not:</p>
@@ -13407,7 +13393,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Program-Organization">Program Organization<a class="anchor-link" href="#Program-Organization">&#182;</a></h2><p>Now that we've seen some of the individual parts of our design, we can look at how they fit together (take about why we disregard Main.java)</p>
+<h2 id="Program-Organization">Program Organization<a class="anchor-link" href="#Program-Organization">&#182;</a></h2><p>Now that we've seen some of the individual parts of our design, we can look at how they fit together:</p>
 
 </div>
 </div>
@@ -13415,8 +13401,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Robot.java">Robot.java<a class="anchor-link" href="#Robot.java">&#182;</a></h3><p>(note : remember, us humans aren't aren't that good at thinking of mechanisms as actions ....)</p>
-<p>The <code>Robot</code> class itself doesn't contain that much in both our Robot codebase as well as in the example project, and this is by design. Because the Robot itself operates off of <strong>time</strong>, and not off of <strong>inputs</strong>, we want to limit the amount of work done in this class.</p>
+<h3 id="Robot.java">Robot.java<a class="anchor-link" href="#Robot.java">&#182;</a></h3><p>The <code>Robot</code> class itself doesn't contain that much in both our Robot codebase as well as in the example project, and this is by design. Because the Robot itself operates off of <strong>time</strong>, and not off of <strong>inputs</strong>, we want to limit the amount of work done in this class.</p>
 <p>All the robot handles are background tasks, such as running the command scheduler (robotPeriodic), and handling phase transitions (teleopInit). The heavy work is done by another class, the <code>RobotContainer</code> (which Robot creates in robotInit).</p>
 
 </div>

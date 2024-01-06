@@ -13940,7 +13940,7 @@ Insufficient funds
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Static-Fields/Methods-:-One-to-Rule-them-All"><a href="https://www.baeldung.com/java-static">Static</a> Fields/Methods : One to Rule them All<a class="anchor-link" href="#Static-Fields/Methods-:-One-to-Rule-them-All">&#182;</a></h2>
+<h2 id="Static-Fields/Methods-:-One-to-Rule-Share-with-Them-All"><a href="https://www.baeldung.com/java-static">Static</a> Fields/Methods : One to <del>Rule</del> Share with Them All<a class="anchor-link" href="#Static-Fields/Methods-:-One-to-Rule-Share-with-Them-All">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -13949,9 +13949,6 @@ Insufficient funds
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We've seen how to create fields and methods for individual objects, but what if for our Account class, we wanted to do some marketing research and track the total amount of money in every account?</p>
 <center>
-  <img src="../Images/PiggyBank.png" alt = ""/>
-  <img src="../Images/PiggyBank.png" alt = ""/>
-  <img src="../Images/PiggyBank.png" alt = ""/>
   <img src="../Images/PiggyBank.png" alt = ""/>
 </center>
 
@@ -14098,7 +14095,7 @@ Withdrawal successful
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>but doing so this way is far less common</p>
+<p>but doing so this way is far less common and maybe a bit counterintuitive as well.</p>
 
 </div>
 </div>
@@ -14291,16 +14288,11 @@ Withdrawal successful
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In a java program, all your code must be inside a class, which is why we have the <code>class Main {...}</code>  surrounding our program.</p>
-<p>the <code>main</code> static method is called the <code>entry point</code> for the program, and is where your code starts running from, this is why it must be both <code>public</code> and <code>static</code>.</p>
-<p>the <code>String... args</code> (or more commonly <code>String[]</code>) are inputs that can be given when the program is ran in the terminal, but it isn't really relevant for FRC programming.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>To run a java program, we're going to need 2 commands, <code>javac</code> and <code>java</code>. First, we would run <code>javac</code> on the program file, which will produce a <code>.class</code> file. Then we call <code>java</code> with the name of the class.</p>
+<ul>
+<li>the <code>main</code> static method is called the <code>entry point</code> for the program, and is where your code starts running from, this is why it must be both <code>public</code> and <code>static</code>.</li>
+<li>the <code>String... args</code> (or more commonly <code>String[]</code>) are inputs that can be given when the program is ran in the terminal.</li>
+</ul>
+<p>To run a java program, we often use 2 commands, <code>javac</code> and <code>java</code>. First, we would run <code>javac</code> (the java compiler) on the program file, which will produce a <code>.class</code> file. Then we call <code>java</code> (the java launcher) with the name of the class which contains the <code>main</code> method entry point.</p>
 
 </div>
 </div>
@@ -14309,7 +14301,7 @@ Withdrawal successful
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <div class="highlight"><pre><span></span>&gt;<span class="w"> </span>javac<span class="w"> </span>Main.java
-&gt;<span class="w"> </span>java<span class="w"> </span>Main
+&gt;<span class="w"> </span>java<span class="w"> </span>Main<span class="w">  </span><span class="c1"># output: Hello World</span>
 </pre></div>
 
 </div>
@@ -14318,7 +14310,7 @@ Withdrawal successful
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Hello World</p>
+<p>Though an important feature of java in general, and crucial to understanding the flow of a program, it's not of particularly great importance for FRC programming, where the entry point often just calls another method that handles the task of setting up and starting execution of the robot's code (as described in a future document).</p>
 
 </div>
 </div>
